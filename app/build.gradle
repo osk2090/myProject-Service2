@@ -9,6 +9,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'java'
 }
 
 repositories {
@@ -16,7 +17,14 @@ repositories {
     jcenter()
 }
 
+// 자바 소스를 컴파일 할 때 적용할 옵션
+tasks.withType(JavaCompile) {
+    // $javac -encoding UTF-8 ...
+    options.encoding = 'UTF-8';
+}
+
 dependencies {
+    implementation 'com.google.code.gson:gson:2.8.6'
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13'
 
