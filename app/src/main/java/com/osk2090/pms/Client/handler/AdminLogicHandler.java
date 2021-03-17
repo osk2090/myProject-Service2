@@ -3,22 +3,27 @@ package com.osk2090.pms.Client.handler;
 import com.osk2090.pms.Client.domain.Client;
 import com.osk2090.pms.Client.util.Prompt;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.util.List;
 
-public class AdminLogicHandler {
+public class AdminLogicHandler extends AbstractAdminHandler {
+  DataInputStream in;
+  DataOutputStream out;
 
-  List<Client> client;
   public AdminLogicHandler(List<Client> clientList) {
-    this.client = clientList;
+    super(clientList);
   }
 
-  ClientInfoHandler clientInfoHandler;
+  List<Client> clientList;
 
+//  ClientInfoHandler clientInfoHandler;
 
   public void adminLogic(ClientInfoHandler clientInfoHandler,
                          ClientListHandler clientListHandler,
                          AdminWinnerResultHandler adminWinnerResultHandler)
           throws CloneNotSupportedException {
+
     boolean run = true;
     while (run) {
 
@@ -35,13 +40,21 @@ public class AdminLogicHandler {
         if (clientInfoHandler.showClients() == 0) {
           System.out.println("현재 응모자가 없습니다.");
         } else {
-          clientListHandler.list();
+          try {
+            clientListHandler.service(in, out);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
         }
       } else if (choice == 3) {
         if (clientInfoHandler.showClients() == 0) {
           System.out.println("입력된 응모자가 없습니다.");
         } else {
-          clientListHandler.list();
+          try {
+            clientListHandler.service(in, out);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
           choice = Prompt.promptInt("삭제할 회원의 인덱스를 입력:");
           if (choice < 0 || choice > clientList.size() - 1) {
             System.out.println("존재하지 않는 응모자입니다.");

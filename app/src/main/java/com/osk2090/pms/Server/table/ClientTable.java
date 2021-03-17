@@ -43,6 +43,7 @@ public class ClientTable implements DataTable {
                 list.add(client);
                 JsonFileHandler.saveClients(jsonFile, list);
                 break;
+
             case "client/selectall":
                 for (Client c : list) {
                     response.appendData(String.format("%d,%s,%d",
@@ -53,7 +54,22 @@ public class ClientTable implements DataTable {
                 break;
 
             case "client/selectByKeyword":
-                //구현하기
+                String keyword = request.getData().get(0);
+                for (Client c : list) {
+                    if (c.getName().contains(keyword) ||
+                            c.getId().contains(keyword)) {
+
+                        response.appendData(String.format("%d,%s,%s,%s,%s,%d",
+                                c.getNo(),
+                                c.getName(),
+                                c.getpN(),
+                                c.getbN(),
+                                c.getId(),
+                                c.getcSize()));
+                    }
+                }
+                break;
+
             case "client/select":
                 int no = Integer.parseInt(request.getData().get(0));
 
@@ -76,7 +92,6 @@ public class ClientTable implements DataTable {
                 if (client == null) {
                     throw new Exception("해당 번호의 응모자가 없습니다.");
                 }
-
                 client.setpN(fileds[2]);
                 client.setcSize(Integer.parseInt(fileds[5]));
                 JsonFileHandler.saveClients(jsonFile, list);

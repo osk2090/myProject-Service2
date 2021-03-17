@@ -1,7 +1,8 @@
 package com.osk2090.pms.Client.handler;
 
-import com.osk2090.edit_ver.draw.domain.Client;
-import com.osk2090.edit_ver.draw.util.Prompt;
+
+import com.osk2090.pms.Client.domain.Client;
+import com.osk2090.pms.Client.util.Prompt;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class AdminWinnerCheckHandler extends AbstractAdminHandler {
     super(clientList);
   }
 
-  public static void winnerCheck(String name, String id, int size, int n, com.osk2090.edit_ver.draw.Handler.ClientInfoHandler clientInfoHandler) {
+  public static void winnerCheck(String name, String id, int size, int n, ClientInfoHandler clientInfoHandler) {
 
     System.out.println("--강남 나이키 매장에 오신걸 환영합니다.");
     String winnerName = Prompt.promptString("당첨자 성함:");
@@ -30,10 +31,5 @@ public class AdminWinnerCheckHandler extends AbstractAdminHandler {
       setR(-1);
       return;
     }
-  }
-
-  @Override
-  public void service() throws CloneNotSupportedException {
-
   }
 }

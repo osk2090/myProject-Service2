@@ -5,15 +5,17 @@ import com.osk2090.pms.Client.util.Prompt;
 
 import java.util.List;
 
-public class ClientSizeCheckHandler {
+public class ClientSizeCheckHandler extends AbstractAdminHandler {
 
     Client client;
+    List<Client> clientList;
 
-    public ClientSizeCheckHandler(List<Client> clientList) {
-        this.client = (Client) clientList;
+    public ClientSizeCheckHandler(List<Client> clientList, Client client) {
+        super(clientList);
+        this.client = client;
     }
 
-    static void finSizeCheck(Client c, int mySize) {
+    static void finSizeCheck(Client c, int mySize, List<Client> clientList,) {
         boolean run = true;
         while (run) {
             mySize = Prompt.promptInt("사이즈 선택:");
@@ -29,19 +31,14 @@ public class ClientSizeCheckHandler {
         }
     }
 
-    static int sizeCheck(int mySize) {
+    static int sizeCheck(int mySize, ClientAddHandler clientAddHandler) {
         while (true) {
-            for (int i = 0; i < SHOE_SIZE.length; i++) {
-                if (SHOE_SIZE[i] == mySize) {
+            for (int i = 0; i < clientAddHandler.SHOE_SIZE.length; i++) {
+                if (clientAddHandler.SHOE_SIZE[i] == mySize) {
                     return mySize;
                 }
             }
             return -1;
         }
-    }
-
-    @Override
-    public void service() throws CloneNotSupportedException {
-
     }
 }

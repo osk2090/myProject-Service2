@@ -1,18 +1,18 @@
 package com.osk2090.pms.Client.handler;
 
-import com.osk2090.edit_ver.draw.domain.Client;
+
+import com.osk2090.pms.Client.domain.Client;
 
 import java.util.List;
 
-public class ClientPrintTwoHandler extends AbstractAdminHandler {
+public class ClientPrintTwoHandler {
 
     public ClientPrintTwoHandler(List<Client> clientList,
                                  AdminCheckResultHandler adminCheckResultHandler,
                                  AdminLogicHandler adminLogicHandler,
                                  ClientInfoHandler clientInfoHandler,
                                  ClientListHandler clientListHandler,
-                                 com.osk2090.edit_ver.draw.Handler.AdminWinnerResultHandler adminWinnerResultHandler) {
-        super(clientList);
+                                 AdminWinnerResultHandler adminWinnerResultHandler) {
         this.adminCheckResultHandler = adminCheckResultHandler;
         this.adminLogicHandler = adminLogicHandler;
         this.clientInfoHandler = clientInfoHandler;
@@ -20,17 +20,17 @@ public class ClientPrintTwoHandler extends AbstractAdminHandler {
         this.adminWinnerResultHandler = adminWinnerResultHandler;
     }
 
+
     AdminCheckResultHandler adminCheckResultHandler;
     AdminLogicHandler adminLogicHandler;
     ClientInfoHandler clientInfoHandler;
     ClientListHandler clientListHandler;
-    com.osk2090.edit_ver.draw.Handler.AdminWinnerResultHandler adminWinnerResultHandler;
+    AdminWinnerResultHandler adminWinnerResultHandler;
 
-    @Override
     public void service() throws CloneNotSupportedException {
         int check = adminCheckResultHandler.checkResult();
         if (check == 0) {
-            adminLogicHandler.adminLogic(clientInfoHandler,clientListHandler,adminWinnerResultHandler);
+            adminLogicHandler.adminLogic(clientInfoHandler, clientListHandler, adminWinnerResultHandler);
         } else {
             System.out.println("관리자의 아이디와 비밀번호를 확인해주세요.");
         }

@@ -1,12 +1,13 @@
 package com.osk2090.pms.Client.handler;
 
-import com.osk2090.edit_ver.draw.domain.Client;
+
+import com.osk2090.pms.Client.domain.Client;
 
 import java.util.List;
 
 public class ClientPrintThreeHandler extends AbstractAdminHandler {
 
-    public ClientPrintThreeHandler(List<Client> clientList,ClientInfoHandler clientInfoHandler,
+    public ClientPrintThreeHandler(List<Client> clientList, ClientInfoHandler clientInfoHandler,
                                    AdminWinnerCheckHandler adminWinnerCheckHandler) {
         super(clientList);
         this.clientInfoHandler = clientInfoHandler;
@@ -22,7 +23,7 @@ public class ClientPrintThreeHandler extends AbstractAdminHandler {
         } else {
             Client c = this.clientInfoHandler.getInfo(this.adminWinnerCheckHandler.getR());
             this.adminWinnerCheckHandler.winnerCheck(
-                    c.getName(), c.getId(), c.getcSize(), c.getIdx(), this.clientInfoHandler);
+                    c.getName(), c.getId(), c.getcSize(), c.getNo(), this.clientInfoHandler);
         }
     }
 }

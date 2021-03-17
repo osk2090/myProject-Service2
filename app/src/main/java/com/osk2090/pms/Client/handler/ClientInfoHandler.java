@@ -1,20 +1,22 @@
 package com.osk2090.pms.Client.handler;
 
-import com.osk2090.edit_ver.draw.domain.Client;
+import com.osk2090.pms.Client.domain.Client;
 
 import java.util.List;
 
-public class ClientInfoHandler extends AbstractClientHandler {
+public class ClientInfoHandler {
+
+    List<Client> clientList;
 
     public ClientInfoHandler(List<Client> clientList) {
-        super(clientList);
+        this.clientList = clientList;
     }
 
-    public static int showClients() {//카운팅
+    public int showClients() {//카운팅
         return clientList.size();
     }
 
-    public static Client getInfo(int clientNo) {//정보가져오기
+    public Client getInfo(int clientNo) {//정보가져오기
         return clientList.get(clientNo);
     }
 
@@ -26,8 +28,4 @@ public class ClientInfoHandler extends AbstractClientHandler {
 //        }
     }
 
-    @Override
-    public void service() throws CloneNotSupportedException {
-
-    }
 }

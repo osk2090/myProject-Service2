@@ -1,9 +1,11 @@
 package com.osk2090.pms.Client.handler;
 
-import com.osk2090.edit_ver.draw.domain.Client;
-import com.osk2090.edit_ver.draw.util.Prompt;
+
+import com.osk2090.pms.Client.domain.Client;
+import com.osk2090.pms.Client.util.Prompt;
 
 import java.util.List;
+
 
 public class AdminCheckResultHandler extends AbstractAdminHandler {
 
@@ -20,10 +22,5 @@ public class AdminCheckResultHandler extends AbstractAdminHandler {
       return 0;
     }
     return -1;
-  }
-
-  @Override
-  public void service() throws CloneNotSupportedException {
-
   }
 }
