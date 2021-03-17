@@ -29,7 +29,7 @@ public class ClientApp {
 
             while (true) {
 
-                String message = Prompt.inputString("명령> ");
+                String message = Prompt.promptString("명령> ");
 
                 out.writeUTF(message);
                 out.writeInt(3);

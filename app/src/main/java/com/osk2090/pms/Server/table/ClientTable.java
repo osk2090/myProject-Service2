@@ -51,6 +51,9 @@ public class ClientTable implements DataTable {
                             c.getcSize()));
                 }
                 break;
+
+            case "client/selectByKeyword":
+                //구현하기
             case "client/select":
                 int no = Integer.parseInt(request.getData().get(0));
 

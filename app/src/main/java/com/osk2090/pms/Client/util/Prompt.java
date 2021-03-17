@@ -1,34 +1,85 @@
 package com.osk2090.pms.Client.util;
 
-import java.sql.Date;
+import com.osk2090.pms.Client.domain.Client;
+
 import java.util.Scanner;
 
-// 패키지 소속 클래스 = top level class
-// - 공개(public) : 다른 패키지에서 사용할 수 있음.
-// - 비공개 : 같은 패키지인 경우만 사용할 수 있음.
 public class Prompt {
+  static Scanner scan = new Scanner(System.in);
 
-  static Scanner keyboardScan = new Scanner(System.in);
-
-  // 메서드 접근 범위 조정 
-  // - public : 다른 패키지에서 사용할 수 있음.
-  // - (default): 같은 패키지에 소속된 경우에만 사용할 수 있음.
-  // - protected: 같은 패키지 및 자손 클래스인 경우 사용할 수 있음.
-  // - private: 클래스 안에서만 사용할 수 있음.
-  public static String inputString(String title) {
-    System.out.print(title);
-    return keyboardScan.nextLine();
+  public static String promptString(String title) {//문자열입력
+    System.out.println(title);
+    return scan.nextLine();
   }
 
-  public static int inputInt(String title) {
-    return Integer.parseInt(inputString(title));
+  public static int promptInt(String title) {//정수입력
+    String temp = promptString(title);
+
+    while (!temp.matches("^[0-9]*$")) {//숫자가 안나오면
+      //^[0-9]*$의 의미
+      // ^:스트링의 시작
+      // [0-9]*:0-9로 이루어진 문자 여러개  *의 의미는 한개이상일때라는 말이다
+      // $: 끝
+
+      System.out.println("숫자만 입력해주세요");
+      System.out.print("> ");
+      temp = scan.nextLine();
+    }
+    return Integer.parseInt(temp);
   }
 
-  public static Date inputDate(String title) {
-    return Date.valueOf(inputString(title));
+  //y/n만 입력받는 프롬프트
+  public static String promptAgreeString(String title) {//문자열입력
+    System.out.println(title);
+    String temp = scan.nextLine();
+    while (!temp.matches("^[y]*$")) {
+      System.out.println("N 또는 다른 문자를 입력하셨습니다.");
+      temp = scan.nextLine();
+    }
+    return temp;
+  }
+
+  public static boolean PhoneNumberCheck(String number) {
+    if (number.matches("^[0-9]*$") && number.length() == 11) {//숫자만 있어야되고 길이가 맞게
+      return true;
+    }
+    return false;
+  }
+
+  public static boolean BirthNumberCheck(String number) {
+    if (number.matches("^[0-9]*$") && number.length() == 6) {//숫자만 있어야되고 길이가 맞게
+      return true;
+    }
+    return false;
+  }
+
+  public static void booleanResult_PN(Client c, String title) {
+    boolean check = true;
+    while (check) {
+      c.setpN(Prompt.promptString(title));
+      if (Prompt.PhoneNumberCheck(c.getpN())) {
+        System.out.println("번호길이 맞습니다.");
+        check = false;
+      } else {
+        System.out.println("번호 길이가 맞지않거나 숫자가 아닙니다.");
+      }
+    }
+  }
+
+  public static void booleanResult_BN(Client c, String title) {
+    boolean check = true;
+    while (check) {
+      c.setbN(Prompt.promptString(title));
+      if (Prompt.BirthNumberCheck(c.getbN())) {
+        System.out.println("생년월일 길이 맞습니다.");
+        check = false;
+      } else {
+        System.out.println("생년월일 길이가 맞지않거나 숫자가 아닙니다.");
+      }
+    }
   }
 
   public static void close() {
-    keyboardScan.close();
+    scan.close();
   }
 }
