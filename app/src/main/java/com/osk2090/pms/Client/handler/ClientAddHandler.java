@@ -10,7 +10,7 @@ import java.util.List;
 public class ClientAddHandler implements Command {
 
     //신발 출력할때 줄을 나열해서 출력하기
-    int[] SHOE_SIZE = {250, 255, 260, 265, 270, 275, 280, 285, 290, 300};//신발사이즈
+    static int[] SHOE_SIZE = {250, 255, 260, 265, 270, 275, 280, 285, 290, 300};//신발사이즈
     int mySize = 0;
     List<Client> clientList;
 
@@ -34,6 +34,6 @@ public class ClientAddHandler implements Command {
             System.out.print(SHOE_SIZE[i] + " ");
         }
         System.out.println();
-        ClientSizeCheckHandler.finSizeCheck(c, mySize, clientList);
+        ClientSizeCheckHandler.finSizeCheck(c, clientList, mySize);
     }
 }

@@ -1,13 +1,18 @@
 package com.osk2090.pms.Client;
 
+import com.osk2090.pms.Client.domain.Client;
+import com.osk2090.pms.Client.handler.*;
 import com.osk2090.pms.Client.util.Prompt;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.*;
 
 public class ClientApp {
+    // 사용자가 입력한 명령을 저장할 컬렉션 객체 준비
+    ArrayDeque<Integer> commandStack = new ArrayDeque<>();
+    LinkedList<Integer> commandQueue = new LinkedList<>();
 
     String serverAddress;
     int port;
@@ -23,52 +28,85 @@ public class ClientApp {
     }
 
     public void execute() {
+        List<Client> clientList = new ArrayList<>();
+
+        HashMap<Integer, Command> commandMap = new HashMap<>();
+
+        ClientStatusHandler clientStatusHandler = new ClientStatusHandler();
+        AdminWinnerResultHandler adminWinnerResultHandler = new AdminWinnerResultHandler(clientList);
+        ClientInfoHandler clientInfoHandler = new ClientInfoHandler(clientList);
+        ClientAddHandler clientAddHandler = new ClientAddHandler();
+        AdminCheckResultHandler adminCheckResultHandler = new AdminCheckResultHandler(clientList);
+        AdminWinnerCheckHandler adminWinnerCheckHandler = new AdminWinnerCheckHandler(clientList);
+        AdminLogicHandler adminLogicHandler = new AdminLogicHandler(clientList);
+        ClientListHandler clientListHandler = new ClientListHandler();
+
+        commandMap.put(1, new ClientPrintOneHandler(clientList, clientAddHandler));
+        commandMap.put(2, new ClientPrintTwoHandler(clientList,
+                adminCheckResultHandler,
+                adminLogicHandler,
+                clientInfoHandler,
+                clientListHandler,
+                adminWinnerResultHandler));
+        commandMap.put(3, new ClientPrintThreeHandler(clientList, clientInfoHandler, adminWinnerCheckHandler));
+
+
         try (Socket socket = new Socket(this.serverAddress, this.port);
              DataOutputStream out = new DataOutputStream(socket.getOutputStream());
              DataInputStream in = new DataInputStream(socket.getInputStream())) {
 
+            loop:
             while (true) {
+                clientStatusHandler.statusPannel(adminWinnerResultHandler, clientInfoHandler);
+                int choice = Prompt.promptInt("-Nike-\n-Draw-\n1. 응모자 2. 관리자 3. 당첨자 수령하기 4. History 0. 종료");
 
-                String message = Prompt.promptString("명령> ");
+                commandStack.push(choice);//사용자가 입력한 명령을 보관
+                commandQueue.offer(choice);
 
-                out.writeUTF(message);
-                out.writeInt(3);
+                try {
+                    switch (choice) {
+                        case 4:
+                            printCommandHistory(commandQueue.iterator());
+                            break;
+                        case 0:
+                            System.out.println("종료합니다.");
+                            out.writeUTF("quit");
+                            out.writeInt(0);
+                            out.flush();
 
-                out.writeUTF("aaa");
-                out.writeUTF("bbb");
-                out.writeUTF("ccc");
-                out.flush();
+                            break loop;
+                        default:
+                            Command commandHandler = commandMap.get(choice);
 
-                String response = in.readUTF();
-                int length = in.readInt();
-
-                ArrayList<String> data = null;
-                if (length > 0) {
-                    data = new ArrayList<>();
-                    for (int i = 0; i < length; i++) {
-                        data.add(in.readUTF());
+                            if (0 > choice || choice > 4) {
+                                System.out.println("다시 선택해주세요.");
+                            } else {
+                                commandHandler.service(in, out);
+                            }
                     }
+                    Prompt.close();
+                } catch (Exception e) {
+                    System.out.println("==================================================");
+                    System.out.printf("명령어 실행중 오류 발생: %s = %s\n", e.getClass().getName(), e.getMessage());
+                    System.out.println("==================================================");
                 }
-
-                System.out.println("-----------------------");
-                System.out.printf("작업 결과: %s\n", response);
-                System.out.printf("데이터 개수: %d\n", length);
-                if (data != null) {
-                    System.out.println("데이터:");
-                    for (String str : data) {
-                        System.out.println(str);
-                    }
                 }
-
-                if (message.equals("quit")) {
-                    break;
-                }
-            }
-            Prompt.close();
-
         } catch (Exception e) {
             System.out.println("서버와 통신하는 중에 오류 발생!");
             e.printStackTrace();
+        }
+    }
+
+    static void printCommandHistory(Iterator<Integer> iterator) {
+        int count = 0;
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+            if ((++count % 5) == 0) {
+                String input = Prompt.promptString(": ");
+                if (input.equalsIgnoreCase("q")) {
+                    break;
+                }
+            }
         }
     }
 }

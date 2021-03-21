@@ -7,15 +7,11 @@ import java.util.List;
 
 public class ClientSizeCheckHandler extends AbstractAdminHandler {
 
-    Client client;
-    List<Client> clientList;
-
-    public ClientSizeCheckHandler(List<Client> clientList, Client client) {
+    public ClientSizeCheckHandler(List<Client> clientList) {
         super(clientList);
-        this.client = client;
     }
 
-    static void finSizeCheck(Client c, int mySize, List<Client> clientList,) {
+    static void finSizeCheck(Client c, List<Client> clientList, int mySize) {
         boolean run = true;
         while (run) {
             mySize = Prompt.promptInt("사이즈 선택:");
@@ -31,10 +27,10 @@ public class ClientSizeCheckHandler extends AbstractAdminHandler {
         }
     }
 
-    static int sizeCheck(int mySize, ClientAddHandler clientAddHandler) {
+    static int sizeCheck(int mySize) {
         while (true) {
-            for (int i = 0; i < clientAddHandler.SHOE_SIZE.length; i++) {
-                if (clientAddHandler.SHOE_SIZE[i] == mySize) {
+            for (int i = 0; i < ClientAddHandler.SHOE_SIZE.length; i++) {
+                if (ClientAddHandler.SHOE_SIZE[i] == mySize) {
                     return mySize;
                 }
             }

@@ -15,17 +15,17 @@ import java.util.List;
 import java.util.Set;
 
 //데이터를 파일에 보관하고 꺼내는 일을 할 애플리케이션
-public class ServaerApp {
+public class ServerApp {
 
     int port;
     HashMap<String, DataTable> tableMap = new HashMap<>();
 
     public static void main(String[] args) {
-        ServaerApp app = new ServaerApp(8888);
+        ServerApp app = new ServerApp(8888);
         app.service();
     }
 
-    public ServaerApp(int port) {
+    public ServerApp(int port) {
         this.port = port;
     }
 

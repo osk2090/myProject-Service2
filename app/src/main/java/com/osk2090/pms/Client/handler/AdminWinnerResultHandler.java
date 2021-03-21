@@ -1,6 +1,6 @@
 package com.osk2090.pms.Client.handler;
 
-import com.osk2090.edit_ver.draw.domain.Client;
+import com.osk2090.pms.Client.domain.Client;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class AdminWinnerResultHandler extends AbstractAdminHandler {
 
     System.out.println("당첨자:" + client.getName());
     System.out.println("축하합니다!");
-    r = client.getIdx();//당첨자 인덱스 저장
+    r = client.getNo();//당첨자 인덱스 저장
   }
 
   void winnerStatus(ClientInfoHandler clientInfoHandler) {
@@ -40,10 +40,5 @@ public class AdminWinnerResultHandler extends AbstractAdminHandler {
     } else {
       System.out.println(winnerTitle + clientInfoHandler.getInfo(getR()).getName() + " 님.");
     }
-  }
-
-  @Override
-  public void service() throws CloneNotSupportedException {
-
   }
 }
