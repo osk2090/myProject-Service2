@@ -16,16 +16,11 @@ public class ClientInfoHandler {
         return clientList.size();
     }
 
-    public Client getInfo(int clientNo) {//정보가져오기
+    public Client getInfo(int clientNo) {//정보가져오기------삭제 예정
         return clientList.get(clientNo);
     }
 
     public void removeClient(int clientNo, List<Client> clientList) {
         clientList.remove(clientNo);
-
-//        for (int i = 0; i < clientList.size(); i++) {
-//            clientList.get(i).setIdx(i);//인덱스 처음부터 재배열
-//        }
     }
-
 }

@@ -3,6 +3,7 @@ package com.osk2090.pms.Client;
 import com.osk2090.pms.Client.domain.Client;
 import com.osk2090.pms.Client.handler.*;
 import com.osk2090.pms.Client.util.Prompt;
+import com.osk2090.pms.Server.table.ClientTable;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -29,12 +30,14 @@ public class ClientApp {
 
     public void execute() {
         List<Client> clientList = new ArrayList<>();
+        List<Client> clientList1 = ClientTable.list;
 
         HashMap<Integer, Command> commandMap = new HashMap<>();
 
         ClientStatusHandler clientStatusHandler = new ClientStatusHandler();
         AdminWinnerResultHandler adminWinnerResultHandler = new AdminWinnerResultHandler(clientList);
         ClientInfoHandler clientInfoHandler = new ClientInfoHandler(clientList);
+
         ClientAddHandler clientAddHandler = new ClientAddHandler();
         AdminCheckResultHandler adminCheckResultHandler = new AdminCheckResultHandler(clientList);
         AdminWinnerCheckHandler adminWinnerCheckHandler = new AdminWinnerCheckHandler(clientList);
@@ -42,8 +45,7 @@ public class ClientApp {
         ClientListHandler clientListHandler = new ClientListHandler();
 
         commandMap.put(1, new ClientPrintOneHandler(clientList, clientAddHandler));
-        commandMap.put(2, new ClientPrintTwoHandler(clientList,
-                adminCheckResultHandler,
+        commandMap.put(2, new ClientPrintTwoHandler(adminCheckResultHandler,
                 adminLogicHandler,
                 clientInfoHandler,
                 clientListHandler,
@@ -84,7 +86,6 @@ public class ClientApp {
                                 commandHandler.service(in, out);
                             }
                     }
-                    Prompt.close();
                 } catch (Exception e) {
                     System.out.println("==================================================");
                     System.out.printf("명령어 실행중 오류 발생: %s = %s\n", e.getClass().getName(), e.getMessage());
@@ -95,6 +96,7 @@ public class ClientApp {
             System.out.println("서버와 통신하는 중에 오류 발생!");
             e.printStackTrace();
         }
+        Prompt.close();
     }
 
     static void printCommandHistory(Iterator<Integer> iterator) {

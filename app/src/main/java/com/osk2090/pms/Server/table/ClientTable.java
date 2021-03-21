@@ -11,7 +11,7 @@ import java.util.List;
 public class ClientTable implements DataTable {
 
     File jsonFile = new File("clients.json");
-    List<Client> list;
+    static List<Client> list;
 
     public ClientTable() {
         list = JsonFileHandler.loadClients(jsonFile, Client.class);

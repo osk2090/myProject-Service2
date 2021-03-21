@@ -33,6 +33,11 @@ public class ClientListHandler implements Command {
                     fields[4],
                     fields[5]);
         }
+
+
+
+
+
 //        Iterator<Client> iterator = clientList.iterator();
 //        System.out.println("====================================================================");
 //        while (iterator.hasNext()) {
