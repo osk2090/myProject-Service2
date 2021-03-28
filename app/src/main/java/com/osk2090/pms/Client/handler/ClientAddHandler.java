@@ -5,14 +5,16 @@ import com.osk2090.pms.Client.util.Prompt;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
 public class ClientAddHandler implements Command {
 
     //신발 출력할때 줄을 나열해서 출력하기
     static int[] SHOE_SIZE = {250, 255, 260, 265, 270, 275, 280, 285, 290, 300};//신발사이즈
     int mySize = 0;
-    List<Client> clientList;
+//    List<Client> clientList;
 
     @Override
     public void service(DataInputStream in, DataOutputStream out) throws Exception {
@@ -34,32 +36,40 @@ public class ClientAddHandler implements Command {
             System.out.print(SHOE_SIZE[i] + " ");
         }
         System.out.println();
-        finSizeCheck(c, mySize, in, out);
+        c.setcSize(finSizeCheck(c, mySize, in, out));//확인된 사이즈를 저장
+
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/servciedb?user=osk&password=2090");
+             PreparedStatement stmt = con.prepareStatement(
+                     "insert into pms_client(name, phone_number, birth_number, id, cSize) values (?,?,?,?,?)")) {
+            stmt.setString(1, c.getName());
+            stmt.setString(2, c.getBirth_number());
+        }
     }
 
 
-    static void finSizeCheck(Client c, int mySize, DataInputStream in, DataOutputStream out) throws Exception {
+    static int finSizeCheck(Client c, int mySize, DataInputStream in, DataOutputStream out) throws Exception {
         boolean run = true;
         while (run) {
             mySize = Prompt.promptInt("사이즈 선택:");
-            if (sizeCheck(mySize) != -1) {
-                System.out.println("사이즈 확인됨");
-                c.setcSize(mySize);
-//                clientList.add(c);//최종저장
-                out.writeUTF("client/insert");
-                out.writeInt(1);
-                out.writeUTF(String.format("%s,%s,%s,%s.%d",
-                        c.getName(),
-                        c.getpN(),
-                        c.getbN(),
-                        c.getId(),
-                        c.getcSize()));
-                System.out.println("응모에 참여해주셔서 감사합니다.");
-                run = false;
-            } else if (sizeCheck(mySize) == -1) {
+            if (sizeCheck(mySize) == -1) {
                 System.out.println("없는 사이즈 입니다.");
+                continue;
             }
+            System.out.println("사이즈 확인됨");
+            c.setcSize(mySize);
+            out.writeUTF("client/insert");
+            out.writeInt(1);
+            out.writeUTF(String.format("%s,%s,%s,%s.%d",
+                    c.getName(),
+                    c.getPhone_number(),
+                    c.getBirth_number(),
+                    c.getId(),
+                    c.getcSize()));
+            System.out.println("응모에 참여해주셔서 감사합니다.");
+            run = false;
         }
+        return mySize;
     }
 
     static int sizeCheck(int mySize) {

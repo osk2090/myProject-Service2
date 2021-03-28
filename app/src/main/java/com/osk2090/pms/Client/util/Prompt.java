@@ -56,8 +56,8 @@ public class Prompt {
   public static void booleanResult_PN(Client c, String title) {
     boolean check = true;
     while (check) {
-      c.setpN(Prompt.promptString(title));
-      if (Prompt.PhoneNumberCheck(c.getpN())) {
+      c.setPhone_number(Prompt.promptString(title));
+      if (Prompt.PhoneNumberCheck(c.getPhone_number())) {
         System.out.println("번호길이 맞습니다.");
         check = false;
       } else {
@@ -69,8 +69,8 @@ public class Prompt {
   public static void booleanResult_BN(Client c, String title) {
     boolean check = true;
     while (check) {
-      c.setbN(Prompt.promptString(title));
-      if (Prompt.BirthNumberCheck(c.getbN())) {
+      c.setBirth_number(Prompt.promptString(title));
+      if (Prompt.BirthNumberCheck(c.getBirth_number())) {
         System.out.println("생년월일 길이 맞습니다.");
         check = false;
       } else {
