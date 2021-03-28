@@ -1,14 +1,12 @@
 package com.osk2090.pms.Client;
 
-import com.osk2090.pms.Client.domain.Client;
 import com.osk2090.pms.Client.handler.*;
 import com.osk2090.pms.Client.util.Prompt;
-import com.osk2090.pms.Server.table.ClientTable;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.net.Socket;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public class ClientApp {
     // 사용자가 입력한 명령을 저장할 컬렉션 객체 준비
@@ -29,37 +27,31 @@ public class ClientApp {
     }
 
     public void execute() {
-        List<Client> clientList = new ArrayList<>();
-        List<Client> clientList1 = ClientTable.list;
 
         HashMap<Integer, Command> commandMap = new HashMap<>();
 
         ClientStatusHandler clientStatusHandler = new ClientStatusHandler();
-        AdminWinnerResultHandler adminWinnerResultHandler = new AdminWinnerResultHandler(clientList);
-        ClientInfoHandler clientInfoHandler = new ClientInfoHandler(clientList);
+        AdminWinnerResultHandler adminWinnerResultHandler = new AdminWinnerResultHandler();
 
         ClientAddHandler clientAddHandler = new ClientAddHandler();
-        AdminCheckResultHandler adminCheckResultHandler = new AdminCheckResultHandler(clientList);
-        AdminWinnerCheckHandler adminWinnerCheckHandler = new AdminWinnerCheckHandler(clientList);
-        AdminLogicHandler adminLogicHandler = new AdminLogicHandler(clientList);
+        AdminCheckResultHandler adminCheckResultHandler = new AdminCheckResultHandler();
+        AdminWinnerCheckHandler adminWinnerCheckHandler = new AdminWinnerCheckHandler();
+//        AdminLogicHandler adminLogicHandler = new AdminLogicHandler();
         ClientListHandler clientListHandler = new ClientListHandler();
 
-        commandMap.put(1, new ClientPrintOneHandler(clientList, clientAddHandler));
+        commandMap.put(1, new ClientPrintOneHandler(clientAddHandler));
         commandMap.put(2, new ClientPrintTwoHandler(adminCheckResultHandler,
-                adminLogicHandler,
-                clientInfoHandler,
+//                adminLogicHandler,
                 clientListHandler,
                 adminWinnerResultHandler));
-        commandMap.put(3, new ClientPrintThreeHandler(clientList, clientInfoHandler, adminWinnerCheckHandler));
+//        commandMap.put(3, new ClientPrintThreeHandler( clientInfoHandler, adminWinnerCheckHandler));
 
 
-        try (Socket socket = new Socket(this.serverAddress, this.port);
-             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-             DataInputStream in = new DataInputStream(socket.getInputStream())) {
+        try {
 
             loop:
             while (true) {
-                clientStatusHandler.statusPannel(adminWinnerResultHandler, clientInfoHandler);
+//                clientStatusHandler.statusPannel(adminWinnerResultHandler, clientInfoHandler);
                 int choice = Prompt.promptInt("-Nike-\n-Draw-\n1. 응모자 2. 관리자 3. 당첨자 수령하기 4. History 0. 종료");
 
                 commandStack.push(choice);//사용자가 입력한 명령을 보관
@@ -72,10 +64,6 @@ public class ClientApp {
                             break;
                         case 0:
                             System.out.println("종료합니다.");
-                            out.writeUTF("quit");
-                            out.writeInt(0);
-                            out.flush();
-
                             break loop;
                         default:
                             Command commandHandler = commandMap.get(choice);
@@ -83,15 +71,15 @@ public class ClientApp {
                             if (0 > choice || choice > 4) {
                                 System.out.println("다시 선택해주세요.");
                             } else {
-                                commandHandler.service(in, out);
+                                commandHandler.service();
                             }
                     }
                 } catch (Exception e) {
                     System.out.println("==================================================");
-                    System.out.printf("명령어 실행중 오류 발생: %s = %s\n", e.getClass().getName(), e.getMessage());
+                    System.out.printf("명령어 실행중 오류 발생: %s = %s\n", e.getMessage());
                     System.out.println("==================================================");
                 }
-                }
+            }
         } catch (Exception e) {
             System.out.println("서버와 통신하는 중에 오류 발생!");
             e.printStackTrace();

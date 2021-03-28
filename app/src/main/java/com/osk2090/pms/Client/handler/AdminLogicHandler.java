@@ -11,16 +11,7 @@ public class AdminLogicHandler extends AbstractAdminHandler {
   DataInputStream in;
   DataOutputStream out;
 
-  public AdminLogicHandler(List<Client> clientList) {
-    super(clientList);
-  }
-
-  List<Client> clientList;
-
-//  ClientInfoHandler clientInfoHandler;
-
-  public void adminLogic(ClientInfoHandler clientInfoHandler,
-                         ClientListHandler clientListHandler,
+  public void adminLogic(ClientListHandler clientListHandler,
                          AdminWinnerResultHandler adminWinnerResultHandler)
           throws CloneNotSupportedException {
 
@@ -41,7 +32,7 @@ public class AdminLogicHandler extends AbstractAdminHandler {
           System.out.println("현재 응모자가 없습니다.");
         } else {
           try {
-            clientListHandler.service(in, out);
+            clientListHandler.service();
           } catch (Exception e) {
             e.printStackTrace();
           }
@@ -51,7 +42,7 @@ public class AdminLogicHandler extends AbstractAdminHandler {
           System.out.println("입력된 응모자가 없습니다.");
         } else {
           try {
-            clientListHandler.service(in, out);
+            clientListHandler.service();
           } catch (Exception e) {
             e.printStackTrace();
           }

@@ -6,12 +6,6 @@ import java.util.List;
 
 public class ClientInfoHandler {
 
-    List<Client> clientList;
-
-    public ClientInfoHandler(List<Client> clientList) {
-        this.clientList = clientList;
-    }
-
     public int showClients() {//카운팅
         return clientList.size();
     }

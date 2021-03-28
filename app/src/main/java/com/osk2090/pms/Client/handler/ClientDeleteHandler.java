@@ -2,30 +2,17 @@ package com.osk2090.pms.Client.handler;
 
 import com.osk2090.pms.Client.util.Prompt;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
 public class ClientDeleteHandler implements Command {
 
     @Override
-    public void service(DataInputStream in, DataOutputStream out) throws Exception {
+    public void service() throws Exception {
         System.out.println("[응모자 삭제]");
 
         int no = Prompt.promptInt("번호? ");
-
-        out.writeUTF("client/select");
-        out.writeInt(1);
-        out.writeUTF(Integer.toString(no));
-        out.flush();
-
-        String status = in.readUTF();
-        in.readInt();
-        String data = in.readUTF();
-
-        if (status.equals("error")) {
-            System.out.println(data);
-            return;
-        }
 
         String input = Prompt.promptString("정말 삭제하시겠습니까?(y/N)? ");
         if (!input.equalsIgnoreCase("y")) {
@@ -33,19 +20,17 @@ public class ClientDeleteHandler implements Command {
             return;
         }
 
-        out.writeUTF("client/delete");
-        out.writeInt(1);
-        out.writeUTF(Integer.toString(no));
-        out.flush();
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/servicedb?user=osk&password=2090");
+             PreparedStatement stmt = con.prepareStatement(
+                     "delete from pms_client where no=?")) {
 
-        status = in.readUTF();
-        in.readInt();
-
-        if (status.equals("error")) {
-            System.out.println(in.readUTF());
-            return;
+            stmt.setInt(1, no);
+            if (stmt.executeUpdate() == 0) {
+                System.out.println("해당 번호의 응모자가 없습니다.");
+            } else {
+                System.out.println("응모자를 삭제하였습니다.");
+            }
         }
-
-        System.out.println("응모자를 삭제하였습니다.");
     }
 }

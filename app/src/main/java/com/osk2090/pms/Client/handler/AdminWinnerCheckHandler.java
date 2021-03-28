@@ -1,18 +1,11 @@
 package com.osk2090.pms.Client.handler;
 
 
-import com.osk2090.pms.Client.domain.Client;
 import com.osk2090.pms.Client.util.Prompt;
-
-import java.util.List;
 
 public class AdminWinnerCheckHandler extends AbstractAdminHandler {
 
-  public AdminWinnerCheckHandler(List<Client> clientList) {
-    super(clientList);
-  }
-
-  public static void winnerCheck(String name, String id, int size, int n, ClientInfoHandler clientInfoHandler) {
+  public static void winnerCheck(String name, String id, int size, int n) {
 
     System.out.println("--강남 나이키 매장에 오신걸 환영합니다.");
     String winnerName = Prompt.promptString("당첨자 성함:");

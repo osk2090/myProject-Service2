@@ -3,8 +3,6 @@ package com.osk2090.pms.Client.handler;
 import com.osk2090.pms.Client.domain.Client;
 import com.osk2090.pms.Client.util.Prompt;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,8 +15,7 @@ public class ClientAddHandler implements Command {
 //    List<Client> clientList;
 
     @Override
-    public void service(DataInputStream in, DataOutputStream out) throws Exception {
-
+    public void service() throws Exception {
         System.out.println("[응모자 등록]");
 
         Client c = new Client();
@@ -36,19 +33,25 @@ public class ClientAddHandler implements Command {
             System.out.print(SHOE_SIZE[i] + " ");
         }
         System.out.println();
-        c.setcSize(finSizeCheck(c, mySize, in, out));//확인된 사이즈를 저장
+        c.setcSize(finSizeCheck(c, mySize));//확인된 사이즈를 저장
 
         try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/servciedb?user=osk&password=2090");
+                "jdbc:mysql://localhost:3306/servicedb?user=osk&password=2090");
              PreparedStatement stmt = con.prepareStatement(
                      "insert into pms_client(name, phone_number, birth_number, id, cSize) values (?,?,?,?,?)")) {
             stmt.setString(1, c.getName());
-            stmt.setString(2, c.getBirth_number());
+            stmt.setString(2, c.getPhone_number());
+            stmt.setString(3, c.getBirth_number());
+            stmt.setString(4, c.getId());
+            stmt.setInt(5, c.getcSize());
+
+            stmt.executeUpdate();
+            System.out.println("응모에 참여해주셔서 감사합니다.");
         }
     }
 
 
-    static int finSizeCheck(Client c, int mySize, DataInputStream in, DataOutputStream out) throws Exception {
+    static int finSizeCheck(Client c, int mySize) throws Exception {
         boolean run = true;
         while (run) {
             mySize = Prompt.promptInt("사이즈 선택:");
@@ -58,15 +61,7 @@ public class ClientAddHandler implements Command {
             }
             System.out.println("사이즈 확인됨");
             c.setcSize(mySize);
-            out.writeUTF("client/insert");
-            out.writeInt(1);
-            out.writeUTF(String.format("%s,%s,%s,%s.%d",
-                    c.getName(),
-                    c.getPhone_number(),
-                    c.getBirth_number(),
-                    c.getId(),
-                    c.getcSize()));
-            System.out.println("응모에 참여해주셔서 감사합니다.");
+            System.out.println("응모자를 등록하였습니다.");
             run = false;
         }
         return mySize;

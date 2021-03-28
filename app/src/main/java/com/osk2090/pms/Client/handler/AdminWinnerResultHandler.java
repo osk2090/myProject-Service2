@@ -6,10 +6,6 @@ import java.util.List;
 
 public class AdminWinnerResultHandler extends AbstractAdminHandler {
 
-  public AdminWinnerResultHandler(List<Client> clientList) {
-    super(clientList);
-  }
-
   void winnerResult(ClientInfoHandler clientInfoHandler) {
     Client client = clientInfoHandler.getInfo(ran.nextInt(clientInfoHandler.showClients()));
     while (true) {

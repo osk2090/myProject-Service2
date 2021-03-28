@@ -1,17 +1,14 @@
 package com.osk2090.pms.Client.handler;
 
-import com.osk2090.pms.Client.domain.Client;
-
-import java.util.List;
 import java.util.Random;
 
 public abstract class AbstractAdminHandler {
 
-  List<Client> clientList;
+//  List<Client> clientList;
 
-  public AbstractAdminHandler(List<Client> clientList) {
-    this.clientList = clientList;
-  }
+//  public AbstractAdminHandler(List<Client> clientList) {
+//    this.clientList = clientList;
+//  }
 
   static String AdminID = "admin";//어드민 기본 아이디
   static int AdminPW = 1234;//어드민 기본 비번

@@ -3,8 +3,6 @@ package com.osk2090.pms.Client.handler;
 
 import com.osk2090.pms.Client.domain.Client;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.util.List;
 
 public class ClientPrintThreeHandler extends AbstractAdminHandler implements Command {
@@ -19,13 +17,8 @@ public class ClientPrintThreeHandler extends AbstractAdminHandler implements Com
     ClientInfoHandler clientInfoHandler;
     AdminWinnerCheckHandler adminWinnerCheckHandler;
 
-//    public void service() throws Exception {
-//
-//    }
-
-
     @Override
-    public void service(DataInputStream in, DataOutputStream out) throws Exception {
+    public void service() throws Exception {
         if (this.clientInfoHandler.showClients() == 0) {
             System.out.println("입력된 응모자가 없습니다.");
         } else {
