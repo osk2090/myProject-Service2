@@ -2,12 +2,10 @@ package com.osk2090.pms.Client.handler;
 
 import com.osk2090.pms.Client.domain.Client;
 
-import java.util.List;
-
 public class AdminWinnerResultHandler extends AbstractAdminHandler {
 
   void winnerResult(ClientInfoHandler clientInfoHandler) {
-    Client client = clientInfoHandler.getInfo(ran.nextInt(clientInfoHandler.showClients()));
+    Client client = clientInfoHandler.getInfo(ran.nextInt(clientInfoHandler.showCountClients()));
     while (true) {
       for (int i = 3; i >= 1; i--) {
         try {
