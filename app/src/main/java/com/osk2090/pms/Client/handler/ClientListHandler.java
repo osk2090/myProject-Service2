@@ -15,7 +15,7 @@ public class ClientListHandler implements Command {
         try (Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/servicedb?user=osk&password=2090");
              PreparedStatement stmt = con.prepareStatement(
-                     "select no,name,id from pms_client order by no desc ");
+                     "select no,name,id from pms_client");
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {

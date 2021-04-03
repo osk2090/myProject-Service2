@@ -7,12 +7,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
-public class ClientAddHandler implements Command {
+public class ClientAddHandler implements Command {//완료
 
-    //신발 출력할때 줄을 나열해서 출력하기
-    static int[] SHOE_SIZE = {250, 255, 260, 265, 270, 275, 280, 285, 290, 300};//신발사이즈
+    static int[] SHOE_SIZE = {250, 255, 260, 265, 270, 275, 280, 285, 290, 300};
     int mySize = 0;
-//    List<Client> clientList;
 
     @Override
     public void service() throws Exception {
@@ -33,7 +31,7 @@ public class ClientAddHandler implements Command {
             System.out.print(SHOE_SIZE[i] + " ");
         }
         System.out.println();
-        c.setcSize(finSizeCheck(c, mySize));//확인된 사이즈를 저장
+        c.setcSize(finSizeCheck(c, mySize));
 
         try (Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/servicedb?user=osk&password=2090");

@@ -36,14 +36,20 @@ public class ClientApp {
         ClientAddHandler clientAddHandler = new ClientAddHandler();
         AdminCheckResultHandler adminCheckResultHandler = new AdminCheckResultHandler();
         AdminWinnerCheckHandler adminWinnerCheckHandler = new AdminWinnerCheckHandler();
-//        AdminLogicHandler adminLogicHandler = new AdminLogicHandler();
+        AdminLogicHandler adminLogicHandler = new AdminLogicHandler();
         ClientListHandler clientListHandler = new ClientListHandler();
+        ClientInfoHandler clientInfoHandler = new ClientInfoHandler();
+        ClientDeleteHandler clientDeleteHandler = new ClientDeleteHandler();
+        ClientDetailHandler clientDetailHandler = new ClientDetailHandler();
 
         commandMap.put(1, new ClientPrintOneHandler(clientAddHandler));
-        commandMap.put(2, new ClientPrintTwoHandler(adminCheckResultHandler,
-//                adminLogicHandler,
+        commandMap.put(2, new ClientPrintTwoHandler(
+                adminCheckResultHandler,
+                adminLogicHandler,
                 clientListHandler,
-                adminWinnerResultHandler));
+                adminWinnerResultHandler,
+                clientDeleteHandler,
+                clientDetailHandler));
 //        commandMap.put(3, new ClientPrintThreeHandler( clientInfoHandler, adminWinnerCheckHandler));
 
 
@@ -51,10 +57,10 @@ public class ClientApp {
 
             loop:
             while (true) {
-//                clientStatusHandler.statusPannel(adminWinnerResultHandler, clientInfoHandler);
+                clientStatusHandler.statusPannel(adminWinnerResultHandler, clientInfoHandler);
                 int choice = Prompt.promptInt("-Nike-\n-Draw-\n1. 응모자 2. 관리자 3. 당첨자 수령하기 4. History 0. 종료");
 
-                commandStack.push(choice);//사용자가 입력한 명령을 보관
+                commandStack.push(choice);
                 commandQueue.offer(choice);
 
                 try {
@@ -76,7 +82,7 @@ public class ClientApp {
                     }
                 } catch (Exception e) {
                     System.out.println("==================================================");
-                    System.out.printf("명령어 실행중 오류 발생: %s = %s\n", e.getMessage());
+                    System.out.printf("명령어 실행중 오류 발생: %s\n", e.getClass());
                     System.out.println("==================================================");
                 }
             }

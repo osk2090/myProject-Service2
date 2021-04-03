@@ -1,31 +1,39 @@
 package com.osk2090.pms.Client.handler;
 
-import com.osk2090.pms.Client.domain.Client;
 import com.osk2090.pms.Client.util.Prompt;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Scanner;
+import java.sql.*;
 
 public class ClientInfoHandler {
 
-    public int showCountClients() throws Exception {//카운팅
-
+    public static int showCountClients() throws Exception {//카운팅하는건데 숫자가 제대로 안나옴
         try (Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/servicedb?user=osk&password=2090");
-             PreparedStatement stmt = con.prepareStatement(
-                     "select count(*) as from pms_client");
-             ResultSet rs = stmt.executeQuery()) {
-            int cnt = 0;
-            while (rs.next()) {
-                cnt += 1;
-            }
-            return cnt;
+             PreparedStatement stmt = con.prepareStatement(String.valueOf(ResultSet.TYPE_SCROLL_INSENSITIVE),
+                     ResultSet.CONCUR_UPDATABLE)) {
+            ResultSet rs = stmt.executeQuery("select count(*) from pms_client");
+            rs.last();
+            int rows = rs.getRow();
+            rs.first();
+            return rows;
         }
     }
+
+
+//    public static int showCountClients() throws Exception {//카운팅
+//        try (Connection con = DriverManager.getConnection(
+//                "jdbc:mysql://localhost:3306/servicedb?user=osk&password=2090");
+//             PreparedStatement stmt = con.prepareStatement(
+//                     "select count(*) from pms_client", ResultSet.TYPE_SCROLL_INSENSITIVE,
+//                     ResultSet.CONCUR_UPDATABLE)) {
+//
+//            ResultSet rs = stmt.executeQuery();
+//            rs.last();
+//            int cnt = rs.getRow();
+//            rs.beforeFirst();
+//            return cnt;
+//        }
+//    }
 
     public void getInfo(int clientNo) throws Exception {
         try (Connection con = DriverManager.getConnection(

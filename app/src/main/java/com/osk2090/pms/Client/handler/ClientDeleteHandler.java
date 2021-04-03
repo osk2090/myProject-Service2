@@ -28,8 +28,9 @@ public class ClientDeleteHandler implements Command {
             stmt.setInt(1, no);
             if (stmt.executeUpdate() == 0) {
                 System.out.println("해당 번호의 응모자가 없습니다.");
+                return;
             } else {
-                System.out.println("응모자를 삭제하였습니다.");
+                System.out.println("회원을 삭제하였습니다.");
             }
         }
     }
