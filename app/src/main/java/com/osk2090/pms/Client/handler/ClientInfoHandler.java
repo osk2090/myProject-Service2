@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Scanner;
 
 public class ClientInfoHandler {
 
@@ -26,7 +27,7 @@ public class ClientInfoHandler {
         }
     }
 
-    public Client getInfo(int clientNo) throws Exception {
+    public void getInfo(int clientNo) throws Exception {
         try (Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/servicedb?user=osk&password=2090");
              PreparedStatement stmt = con.prepareStatement(
@@ -36,7 +37,7 @@ public class ClientInfoHandler {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (!rs.next()) {
                     System.out.println("해당 번호의 응모자가 없습니다.");
-                    return rs.getInt()
+                    return;
                 }
 
                 //이름: %s 전화번호: %s 생년월일: %s 아이디: %s 사이즈:

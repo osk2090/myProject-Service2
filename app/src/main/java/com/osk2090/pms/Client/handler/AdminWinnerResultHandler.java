@@ -1,11 +1,9 @@
 package com.osk2090.pms.Client.handler;
 
-import com.osk2090.pms.Client.domain.Client;
-
 public class AdminWinnerResultHandler extends AbstractAdminHandler {
 
-  void winnerResult(ClientInfoHandler clientInfoHandler) {
-    Client client = clientInfoHandler.getInfo(ran.nextInt(clientInfoHandler.showCountClients()));
+  void winnerResult(ClientInfoHandler clientInfoHandler) throws Exception {
+//    Client client = clientInfoHandler.getInfo(ran.nextInt(clientInfoHandler.showCountClients()));
     while (true) {
       for (int i = 3; i >= 1; i--) {
         try {
@@ -15,24 +13,24 @@ public class AdminWinnerResultHandler extends AbstractAdminHandler {
         }
         System.out.printf("%d! ", i);
       }
-      if (client == null) {
-        System.out.println("해당 번호의 회원은 삭제된 회원이므로 다시 뽑겠습니다!");
-        continue;
-      }
+//      if (client == null) {
+//        System.out.println("해당 번호의 회원은 삭제된 회원이므로 다시 뽑겠습니다!");
+//        continue;
+//      }
 
       break;
     }
 
-    System.out.println("당첨자:" + client.getName());
+//    System.out.println("당첨자:" + client.getName());
     System.out.println("축하합니다!");
-    r = client.getNo();//당첨자 인덱스 저장
+//    r = client.getNo();//당첨자 인덱스 저장
   }
 
-  void winnerStatus(ClientInfoHandler clientInfoHandler) {
+  void winnerStatus(ClientInfoHandler clientInfoHandler) throws Exception {
     if (getR() == -1) {
       System.out.println(winnerTitle + "없음");
     } else {
-      System.out.println(winnerTitle + clientInfoHandler.getInfo(getR()).getName() + " 님.");
+//      System.out.println(winnerTitle + clientInfoHandler.getInfo(getR()).getName() + " 님.");
     }
   }
 }
