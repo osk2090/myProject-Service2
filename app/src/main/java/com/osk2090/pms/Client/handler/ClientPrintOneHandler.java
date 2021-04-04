@@ -10,15 +10,6 @@ public class ClientPrintOneHandler implements Command {
     }
 
     ClientAddHandler clientAddHandler;
-//    DataOutputStream out;
-//    DataInputStream in;
-
-//    public void service() throws Exception {
-//        if (Agreement.Agree()) {
-//            this.clientAddHandler.service(in, out);
-//
-//        }
-//    }
 
     @Override
     public void service() throws Exception {
