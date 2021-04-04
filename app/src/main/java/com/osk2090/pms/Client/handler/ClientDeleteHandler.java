@@ -1,12 +1,15 @@
 package com.osk2090.pms.Client.handler;
 
+import com.osk2090.pms.Client.dao.ClientDao;
 import com.osk2090.pms.Client.util.Prompt;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-
 public class ClientDeleteHandler implements Command {
+
+    ClientDao clientDao;
+
+    public ClientDeleteHandler(ClientDao clientDao) {
+        this.clientDao = clientDao;
+    }
 
     @Override
     public void service() throws Exception {
@@ -20,18 +23,11 @@ public class ClientDeleteHandler implements Command {
             return;
         }
 
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/servicedb?user=osk&password=2090");
-             PreparedStatement stmt = con.prepareStatement(
-                     "delete from pms_client where no=?")) {
-
-            stmt.setInt(1, no);
-            if (stmt.executeUpdate() == 0) {
-                System.out.println("해당 번호의 응모자가 없습니다.");
-                return;
-            } else {
-                System.out.println("회원을 삭제하였습니다.");
-            }
+        if (clientDao.delete(no) == 0) {
+            System.out.println("해당 번호의 응모자가 없습니다.");
+            return;
+        } else {
+            System.out.println("회원을 삭제하였습니다.");
         }
     }
 }

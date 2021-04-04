@@ -1,16 +1,18 @@
 package com.osk2090.pms.Client.handler;
 
+import com.osk2090.pms.Client.dao.ClientDao;
 import com.osk2090.pms.Client.domain.Client;
 import com.osk2090.pms.Client.util.Prompt;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 
 public class ClientAddHandler implements Command {//완료
 
     static int[] SHOE_SIZE = {250, 255, 260, 265, 270, 275, 280, 285, 290, 300};
     int mySize = 0;
+    ClientDao clientDao;
+
+    public ClientAddHandler(ClientDao clientDao) {
+        this.clientDao = clientDao;
+    }
 
     @Override
     public void service() throws Exception {
@@ -33,19 +35,9 @@ public class ClientAddHandler implements Command {//완료
         System.out.println();
         c.setcSize(finSizeCheck(c, mySize));
 
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/servicedb?user=osk&password=2090");
-             PreparedStatement stmt = con.prepareStatement(
-                     "insert into pms_client(name, phone_number, birth_number, id, cSize) values (?,?,?,?,?)")) {
-            stmt.setString(1, c.getName());
-            stmt.setString(2, c.getPhone_number());
-            stmt.setString(3, c.getBirth_number());
-            stmt.setString(4, c.getId());
-            stmt.setInt(5, c.getcSize());
+        clientDao.insert(c);
 
-            stmt.executeUpdate();
-            System.out.println("응모에 참여해주셔서 감사합니다.");
-        }
+        System.out.println("응모에 참여해주셔서 감사합니다.");
     }
 
 

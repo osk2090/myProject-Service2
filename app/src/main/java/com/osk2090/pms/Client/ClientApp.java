@@ -1,5 +1,6 @@
 package com.osk2090.pms.Client;
 
+import com.osk2090.pms.Client.dao.ClientDao;
 import com.osk2090.pms.Client.handler.*;
 import com.osk2090.pms.Client.util.Prompt;
 
@@ -18,7 +19,13 @@ public class ClientApp {
 
     public static void main(String[] args) {
         ClientApp app = new ClientApp("localhost", 8888);
-        app.execute();
+
+        try {
+            app.execute();
+        } catch (Exception e) {
+            System.out.println("클라이언트 실행 중 오류 발생!");
+            e.printStackTrace();
+        }
     }
 
     public ClientApp(String serverAddress, int port) {
@@ -26,21 +33,22 @@ public class ClientApp {
         this.port = port;
     }
 
-    public void execute() {
+    public void execute() throws Exception {
+        ClientDao clientDao = new ClientDao();
 
         HashMap<Integer, Command> commandMap = new HashMap<>();
 
         ClientStatusHandler clientStatusHandler = new ClientStatusHandler();
         AdminWinnerResultHandler adminWinnerResultHandler = new AdminWinnerResultHandler();
 
-        ClientAddHandler clientAddHandler = new ClientAddHandler();
+        ClientAddHandler clientAddHandler = new ClientAddHandler(clientDao);
         AdminCheckResultHandler adminCheckResultHandler = new AdminCheckResultHandler();
         AdminWinnerCheckHandler adminWinnerCheckHandler = new AdminWinnerCheckHandler();
         AdminLogicHandler adminLogicHandler = new AdminLogicHandler();
-        ClientListHandler clientListHandler = new ClientListHandler();
+        ClientListHandler clientListHandler = new ClientListHandler(clientDao);
         ClientInfoHandler clientInfoHandler = new ClientInfoHandler();
-        ClientDeleteHandler clientDeleteHandler = new ClientDeleteHandler();
-        ClientDetailHandler clientDetailHandler = new ClientDetailHandler();
+        ClientDeleteHandler clientDeleteHandler = new ClientDeleteHandler(clientDao);
+        ClientDetailHandler clientDetailHandler = new ClientDetailHandler(clientDao);
 
         commandMap.put(1, new ClientPrintOneHandler(clientAddHandler));
         commandMap.put(2, new ClientPrintTwoHandler(
