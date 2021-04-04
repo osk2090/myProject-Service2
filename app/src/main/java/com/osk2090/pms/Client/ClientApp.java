@@ -1,6 +1,7 @@
 package com.osk2090.pms.Client;
 
 import com.osk2090.pms.Client.dao.ClientDao;
+import com.osk2090.pms.Client.dao.mariadb.ClientDaoImpl;
 import com.osk2090.pms.Client.handler.*;
 import com.osk2090.pms.Client.util.Prompt;
 
@@ -34,7 +35,7 @@ public class ClientApp {
     }
 
     public void execute() throws Exception {
-        ClientDao clientDao = new ClientDao();
+        ClientDao clientDao = new ClientDaoImpl();
 
         HashMap<Integer, Command> commandMap = new HashMap<>();
 
@@ -59,7 +60,6 @@ public class ClientApp {
                 clientDeleteHandler,
                 clientDetailHandler));
 //        commandMap.put(3, new ClientPrintThreeHandler( clientInfoHandler, adminWinnerCheckHandler));
-
 
         try {
 
