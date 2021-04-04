@@ -62,7 +62,7 @@ public class ClientDaoImpl implements ClientDao {
         ArrayList<Client> list = new ArrayList<>();
 
         try (PreparedStatement stmt = con.prepareStatement(
-                "select no,name,id from pms_client order by id asc");
+                "select no,name,id from pms_client");
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {

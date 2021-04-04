@@ -6,16 +6,18 @@ import java.sql.*;
 
 public class ClientInfoHandler {
 
-    public static int showCountClients() throws Exception {//카운팅하는건데 숫자가 제대로 안나옴
+    public static int showCountClients() throws Exception {
         try (Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/servicedb?user=osk&password=2090");
              PreparedStatement stmt = con.prepareStatement(String.valueOf(ResultSet.TYPE_SCROLL_INSENSITIVE),
                      ResultSet.CONCUR_UPDATABLE)) {
-            ResultSet rs = stmt.executeQuery("select count(*) from pms_client");
-            rs.last();
-            int rows = rs.getRow();
-            rs.first();
-            return rows;
+            ResultSet rs = stmt.executeQuery("select no from pms_client");
+            int cnt = 0;
+            while (rs.next()) {
+                int no = rs.getInt("no");
+                cnt++;
+            }
+            return cnt;
         }
     }
 
