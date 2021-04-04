@@ -21,22 +21,6 @@ public class ClientInfoHandler {
         }
     }
 
-
-//    public static int showCountClients() throws Exception {//카운팅
-//        try (Connection con = DriverManager.getConnection(
-//                "jdbc:mysql://localhost:3306/servicedb?user=osk&password=2090");
-//             PreparedStatement stmt = con.prepareStatement(
-//                     "select count(*) from pms_client", ResultSet.TYPE_SCROLL_INSENSITIVE,
-//                     ResultSet.CONCUR_UPDATABLE)) {
-//
-//            ResultSet rs = stmt.executeQuery();
-//            rs.last();
-//            int cnt = rs.getRow();
-//            rs.beforeFirst();
-//            return cnt;
-//        }
-//    }
-
     public void getInfo(int clientNo) throws Exception {
         try (Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/servicedb?user=osk&password=2090");

@@ -21,13 +21,13 @@ public class AdminLogicHandler extends AbstractAdminHandler {
           return;
         } else {
           System.out.println("현재 입력된 응모자가 없습니다.");
+          continue;
         }
       } else if (choice == 2) {
-//        if (clientInfoHandler.showCountClients() == 0) {
-//          System.out.println("현재 응모자가 없습니다.");
-//        } else {
-//            clientListHandler.service();
-//        }
+        if (clientInfoHandler.showCountClients() == 0) {
+          System.out.println("현재 응모자가 없습니다.");
+          continue;
+        }
         System.out.println("--------------------------------------------");
         clientListHandler.service();
         System.out.println("--------------------------------------------");
@@ -35,30 +35,22 @@ public class AdminLogicHandler extends AbstractAdminHandler {
         if (choice == 1) {
           clientDetailHandler.service();
         } else if (choice == 2) {
-          return;
+          continue;
         } else {
           System.out.println("메뉴 확인해주세요.");
         }
       } else if (choice == 3) {
-//        if (clientInfoHandler.showCountClients() == 0) {
-//          System.out.println("입력된 응모자가 없습니다.");
-//        } else {
-//          try {
-//            clientListHandler.service();
-//          } catch (Exception e) {
-//            e.printStackTrace();
-//          }
-        clientListHandler.service();
-
-//          choice = Prompt.promptInt("삭제할 회원의 인덱스를 입력:");
-//          if (choice < 0 || choice > clientInfoHandler.showCountClients()) {
-//            System.out.println("존재하지 않는 응모자입니다.");
-//          } else {
-//            clientInfoHandler.removeClient(choice);
-//            System.out.println("삭제를 완료하였습니다.");
-//          }
-        clientDeleteHandler.service();
-//        }
+        if (clientInfoHandler.showCountClients() == 0) {
+          System.out.println("입력된 응모자가 없습니다.");
+          continue;
+        } else {
+          try {
+            clientListHandler.service();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+          clientDeleteHandler.service();
+        }
       } else if (choice == 4) {
         System.out.println("로그아웃 되었습니다.");
         AdminCheck = -1;//로그아웃
