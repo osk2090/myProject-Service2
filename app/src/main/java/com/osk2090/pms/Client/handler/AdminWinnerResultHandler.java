@@ -28,6 +28,10 @@ public class AdminWinnerResultHandler extends AbstractAdminHandler {
     System.out.println("당첨자:" + ((Client) clients).getName());
     System.out.println("축하합니다!");
     r = clients.getNo();//당첨자 인덱스 저장
+
+
+
+
   }
 
   void winnerStatus(ClientInfoHandler clientInfoHandler) throws Exception {
