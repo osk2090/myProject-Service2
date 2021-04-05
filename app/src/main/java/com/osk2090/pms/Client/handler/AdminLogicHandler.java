@@ -10,6 +10,9 @@ public class AdminLogicHandler extends AbstractAdminHandler {
                          ClientDeleteHandler clientDeleteHandler,
                          ClientDetailHandler clientDetailHandler) throws Exception {
 
+
+
+
     boolean run = true;
     while (run) {
 
