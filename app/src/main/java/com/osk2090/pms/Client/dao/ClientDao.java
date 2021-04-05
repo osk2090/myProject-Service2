@@ -13,4 +13,5 @@ public interface ClientDao {
     public List<Client> findAll() throws Exception;
 
     public int delete(int no) throws Exception;
+
 }

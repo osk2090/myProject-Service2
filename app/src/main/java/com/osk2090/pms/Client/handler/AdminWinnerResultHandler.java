@@ -2,15 +2,12 @@ package com.osk2090.pms.Client.handler;
 
 import com.osk2090.pms.Client.domain.Client;
 
-import java.util.List;
-
 public class AdminWinnerResultHandler extends AbstractAdminHandler {
 
   void winnerResult(ClientInfoHandler clientInfoHandler) throws Exception {
-//    List<Client> clients = clientInfoHandler.getInfo(ran.nextInt(clientInfoHandler.showCountClients()));
-//    Client client = clientInfoHandler.getInfo(ran.nextInt(clientInfoHandler.showCountClients()));
     int r = ran.nextInt(clientInfoHandler.showCountClients());
-    List<Client> clients = clientInfoHandler.getInfo(r);
+    Client clients = clientInfoHandler.findByNo(r);
+
     while (true) {
       for (int i = 3; i >= 1; i--) {
         try {
@@ -30,14 +27,14 @@ public class AdminWinnerResultHandler extends AbstractAdminHandler {
     Client c = (Client) clients;
     System.out.println("당첨자:" + ((Client) clients).getName());
     System.out.println("축하합니다!");
-    r = ((Client) clients).getNo();//당첨자 인덱스 저장
+    r = clients.getNo();//당첨자 인덱스 저장
   }
 
   void winnerStatus(ClientInfoHandler clientInfoHandler) throws Exception {
     if (getR() == -1) {
       System.out.println(winnerTitle + "없음");
     } else {
-      System.out.println(winnerTitle + clientInfoHandler.getInfo(getR()) + " 님.");
+      System.out.println(winnerTitle + clientInfoHandler.findByNo(getR()) + " 님.");
     }
   }
 }

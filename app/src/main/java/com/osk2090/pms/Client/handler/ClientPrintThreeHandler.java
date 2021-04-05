@@ -17,7 +17,7 @@ public class ClientPrintThreeHandler extends AbstractAdminHandler implements Com
         if (this.clientInfoHandler.showCountClients() == 0) {
             System.out.println("입력된 응모자가 없습니다.");
         } else {
-            this.clientInfoHandler.getInfo(this.adminWinnerCheckHandler.getR());
+            this.clientInfoHandler.findByNo(this.adminWinnerCheckHandler.getR());
         }
     }
 }

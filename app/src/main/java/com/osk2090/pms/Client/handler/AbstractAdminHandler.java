@@ -13,7 +13,7 @@ public abstract class AbstractAdminHandler {
     AbstractAdminHandler.r = r;
   }
 
-  public int getR() {
+  public static int getR() {
     return r;
   }
 
