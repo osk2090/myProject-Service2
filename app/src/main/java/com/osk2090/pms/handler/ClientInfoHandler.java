@@ -1,14 +1,11 @@
 package com.osk2090.pms.handler;
 
-import com.osk2090.pms.dao.mariadb.ForAbstract;
-import com.osk2090.pms.domain.Client;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class ClientInfoHandler extends ForAbstract {
+public class ClientInfoHandler {
 
     public static int showCountClients() throws Exception {
         try (Connection con = DriverManager.getConnection(
@@ -24,17 +21,6 @@ public class ClientInfoHandler extends ForAbstract {
             return cnt;
         }
     }
-
-    @Override
-    public Client findByNo(int no) throws Exception {
-        return super.findByNo(no);
-    }
-
-    @Override
-    public int delete(int no) throws Exception {
-        return super.delete(no);
-    }
-
     //    public void removeClient(int clientNo) throws Exception {
 //        String input = Prompt.promptString("정말 삭제하시겠습니까?(y/N)? ");
 //        if (!input.equalsIgnoreCase("y")) {

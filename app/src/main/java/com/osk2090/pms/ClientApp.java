@@ -74,14 +74,15 @@ public class ClientApp {
                 clientListHandler,
                 adminWinnerResultHandler,
                 clientDeleteHandler,
-                clientDetailHandler));
+                clientDetailHandler,
+                clientDao));
 //        commandMap.put(3, new ClientPrintThreeHandler( clientInfoHandler, adminWinnerCheckHandler));
 
         try {
 
             loop:
             while (true) {
-                clientStatusHandler.statusPannel(adminWinnerResultHandler);
+                clientStatusHandler.statusPannel(adminWinnerResultHandler,clientDao);
                 int choice = Prompt.promptInt("-Nike-\n-Draw-\n1. 응모자 2. 관리자 3. 당첨자 수령하기 4. History 0. 종료");
 
                 commandStack.push(choice);

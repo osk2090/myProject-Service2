@@ -1,16 +1,16 @@
 package com.osk2090.pms.handler;
 
-import com.osk2090.pms.dao.mariadb.ForAbstract;
+import com.osk2090.pms.dao.ClientDao;
 import com.osk2090.pms.domain.Client;
 
 public class AdminWinnerResultHandler extends AbstractAdminHandler {
 
-  void winnerResult(ClientInfoHandler clientInfoHandler) throws Exception {
+  void winnerResult(ClientInfoHandler clientInfoHandler, ClientDao clientDao) throws Exception {
     int r = -1;
     Client clients = null;
     while (true) {
       r = ran.nextInt(ClientInfoHandler.showCountClients()) + 1;
-      clients = ClientInfoHandler.findByNon(r);
+      clients = clientDao.findByNo(r);
       if (clients != null) {
         System.out.println("당첨자 선정이 끝났습니다.");
         break;
@@ -38,11 +38,11 @@ public class AdminWinnerResultHandler extends AbstractAdminHandler {
     r = clients.getNo();//당첨자 인덱스 저장
   }
 
-  void winnerStatus() throws Exception {
+  void winnerStatus(ClientDao clientDao) throws Exception {
     if (getR() == -1) {
       System.out.println(winnerTitle + "없음");
     } else {
-      System.out.println(winnerTitle + ForAbstract.findByNon(getR()) + " 님.");
+      System.out.println(winnerTitle + clientDao.findByNo(getR()) + " 님.");
     }
   }
 }

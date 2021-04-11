@@ -1,5 +1,6 @@
 package com.osk2090.pms.handler;
 
+import com.osk2090.pms.dao.ClientDao;
 import com.osk2090.util.Prompt;
 
 public class AdminLogicHandler extends AbstractAdminHandler {
@@ -8,7 +9,8 @@ public class AdminLogicHandler extends AbstractAdminHandler {
                          AdminWinnerResultHandler adminWinnerResultHandler,
                          ClientInfoHandler clientInfoHandler,
                          ClientDeleteHandler clientDeleteHandler,
-                         ClientDetailHandler clientDetailHandler) throws Exception {
+                         ClientDetailHandler clientDetailHandler,
+                         ClientDao clientDao) throws Exception {
     boolean run = true;
     while (run) {
 
@@ -16,7 +18,7 @@ public class AdminLogicHandler extends AbstractAdminHandler {
       if (choice == 1) {
         if (ClientInfoHandler.showCountClients() != 0) {
           System.out.println("추첨하겠습니다.");
-          adminWinnerResultHandler.winnerResult(clientInfoHandler);
+          adminWinnerResultHandler.winnerResult(clientInfoHandler, clientDao);
           return;
         } else {
           System.out.println("현재 입력된 응모자가 없습니다.");
