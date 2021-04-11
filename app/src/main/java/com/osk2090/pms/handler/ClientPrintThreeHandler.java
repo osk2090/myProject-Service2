@@ -7,7 +7,8 @@ public class ClientPrintThreeHandler extends AbstractAdminHandler implements Com
 
     public ClientPrintThreeHandler(ClientInfoHandler clientInfoHandler,
                                    AdminWinnerCheckHandler adminWinnerCheckHandler
-    , ClientDao clientDao) {
+            , ClientDao clientDao) {
+
         this.clientInfoHandler = clientInfoHandler;
         this.adminWinnerCheckHandler = adminWinnerCheckHandler;
         this.clientDao = clientDao;

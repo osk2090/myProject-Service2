@@ -76,7 +76,7 @@ public class ClientApp {
                 clientDeleteHandler,
                 clientDetailHandler,
                 clientDao));
-//        commandMap.put(3, new ClientPrintThreeHandler( clientInfoHandler, adminWinnerCheckHandler));
+        commandMap.put(3, new ClientPrintThreeHandler(clientInfoHandler, adminWinnerCheckHandler, clientDao));
 
         try {
 

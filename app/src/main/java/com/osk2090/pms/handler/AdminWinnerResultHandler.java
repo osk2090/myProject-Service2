@@ -5,9 +5,10 @@ import com.osk2090.pms.domain.Client;
 
 public class AdminWinnerResultHandler extends AbstractAdminHandler {
 
+  Client clients = null;
+
   void winnerResult(ClientInfoHandler clientInfoHandler, ClientDao clientDao) throws Exception {
     int r = -1;
-    Client clients = null;
     while (true) {
       r = ran.nextInt(ClientInfoHandler.showCountClients()) + 1;
       clients = clientDao.findByNo(r);
@@ -31,6 +32,7 @@ public class AdminWinnerResultHandler extends AbstractAdminHandler {
           e.printStackTrace();
         }
         System.out.printf("%d! ", i);
+        setR(r);
       }
 
     System.out.println("당첨자:" + clients.getName());
