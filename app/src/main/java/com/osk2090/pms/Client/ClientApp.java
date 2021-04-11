@@ -65,7 +65,7 @@ public class ClientApp {
 
             loop:
             while (true) {
-                clientStatusHandler.statusPannel(adminWinnerResultHandler, clientInfoHandler);
+                clientStatusHandler.statusPannel(adminWinnerResultHandler);
                 int choice = Prompt.promptInt("-Nike-\n-Draw-\n1. 응모자 2. 관리자 3. 당첨자 수령하기 4. History 0. 종료");
 
                 commandStack.push(choice);

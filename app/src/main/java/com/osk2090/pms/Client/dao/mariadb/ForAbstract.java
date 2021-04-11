@@ -16,6 +16,10 @@ public class ForAbstract implements ClientDao {
         return null;
     }
 
+    public static Client findByNon(int no) throws Exception {
+        return null;
+    }
+
     @Override
     public List<Client> findAll() throws Exception {
         return null;

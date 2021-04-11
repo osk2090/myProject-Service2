@@ -14,7 +14,7 @@ public class AdminLogicHandler extends AbstractAdminHandler {
 
       int choice = Prompt.promptInt("1. 추첨하기 2. 응모자리스트 3. 응모자삭제 4. 로그아웃");
       if (choice == 1) {
-        if (clientInfoHandler.showCountClients() != 0) {
+        if (ClientInfoHandler.showCountClients() != 0) {
           System.out.println("추첨하겠습니다.");
           adminWinnerResultHandler.winnerResult(clientInfoHandler);
           return;
