@@ -2,19 +2,19 @@ package com.osk2090.pms.handler;
 
 
 import com.osk2090.pms.dao.ClientDao;
-import com.osk2090.pms.dao.mariadb.ClientDaoImpl;
 
 public class ClientPrintTwoHandler implements Command {
 
 
     public ClientPrintTwoHandler(AdminCheckResultHandler adminCheckResultHandler,
+                                 AdminWinnerCheckHandler adminWinnerCheckHandler,
                                  AdminLogicHandler adminLogicHandler,
                                  ClientListHandler clientListHandler,
                                  AdminWinnerResultHandler adminWinnerResultHandler,
                                  ClientDeleteHandler clientDeleteHandler,
                                  ClientDetailHandler clientDetailHandler,
                                  ClientDao clientDao) {
-
+        this.adminWinnerCheckHandler = adminWinnerCheckHandler;
         this.adminCheckResultHandler = adminCheckResultHandler;
         this.adminLogicHandler = adminLogicHandler;
         this.clientListHandler = clientListHandler;
@@ -25,6 +25,7 @@ public class ClientPrintTwoHandler implements Command {
     }
 
     AdminCheckResultHandler adminCheckResultHandler;
+    AdminWinnerCheckHandler adminWinnerCheckHandler;
     AdminLogicHandler adminLogicHandler;
     ClientListHandler clientListHandler;
     ClientInfoHandler clientInfoHandler;

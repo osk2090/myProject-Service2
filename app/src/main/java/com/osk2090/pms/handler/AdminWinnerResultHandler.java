@@ -1,18 +1,15 @@
 package com.osk2090.pms.handler;
 
 import com.osk2090.pms.dao.ClientDao;
-import com.osk2090.pms.domain.Client;
 
 public class AdminWinnerResultHandler extends AbstractAdminHandler {
-
-  Client clients = null;
 
   void winnerResult(ClientInfoHandler clientInfoHandler, ClientDao clientDao) throws Exception {
     int r = -1;
     while (true) {
       r = ran.nextInt(ClientInfoHandler.showCountClients()) + 1;
-      clients = clientDao.findByNo(r);
-      if (clients != null) {
+      client = clientDao.findByNo(r);
+      if (client != null) {
         System.out.println("당첨자 선정이 끝났습니다.");
         break;
       }
@@ -35,16 +32,16 @@ public class AdminWinnerResultHandler extends AbstractAdminHandler {
         setR(r);
       }
 
-    System.out.println("당첨자:" + clients.getName());
+    System.out.println("당첨자:" + client.getName());
     System.out.println("축하합니다!");
-    r = clients.getNo();//당첨자 인덱스 저장
+    r = client.getNo();//당첨자 인덱스 저장
   }
 
   void winnerStatus(ClientDao clientDao) throws Exception {
     if (getR() == -1) {
       System.out.println(winnerTitle + "없음");
     } else {
-      System.out.println(winnerTitle + clientDao.findByNo(getR()) + " 님.");
+      System.out.println(winnerTitle + client.getName() + " 님.");
     }
   }
 }

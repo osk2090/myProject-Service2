@@ -70,6 +70,7 @@ public class ClientApp {
         commandMap.put(1, new ClientPrintOneHandler(clientAddHandler));
         commandMap.put(2, new ClientPrintTwoHandler(
                 adminCheckResultHandler,
+                adminWinnerCheckHandler,
                 adminLogicHandler,
                 clientListHandler,
                 adminWinnerResultHandler,
