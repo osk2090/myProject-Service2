@@ -1,7 +1,7 @@
 package com.osk2090.pms;
 
+import com.osk2090.mybatis.MybatisDaoFactory;
 import com.osk2090.pms.dao.ClientDao;
-import com.osk2090.pms.dao.mariadb.ClientDaoImpl;
 import com.osk2090.pms.handler.*;
 import com.osk2090.pms.service.ClientService;
 import com.osk2090.pms.service.impl.DefaultClientService;
@@ -12,10 +12,9 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.InputStream;
-import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Parameter;
+import java.util.*;
 
 public class ClientApp {
     // 사용자가 입력한 명령을 저장할 컬렉션 객체 준비
@@ -24,6 +23,8 @@ public class ClientApp {
 
     String serverAddress;
     int port;
+
+    Map<String, Object> objMap = new HashMap<>();
 
     public static void main(String[] args) {
         ClientApp app = new ClientApp("localhost", 8888);
@@ -53,7 +54,9 @@ public class ClientApp {
         // => 수동 commit 으로 동작하는 SqlSession 객체를 준비한다.
         SqlSession sqlSession = sqlSessionFactory.openSession(false);
 
-        ClientDao clientDao = new ClientDaoImpl(sqlSession);
+        MybatisDaoFactory daoFactory = new MybatisDaoFactory(sqlSession);
+
+        ClientDao clientDao = daoFactory.createDao(ClientDao.class);
 
         ClientService clientService = new DefaultClientService(sqlSession, clientDao);
 
@@ -71,17 +74,21 @@ public class ClientApp {
         ClientDeleteHandler clientDeleteHandler = new ClientDeleteHandler(clientService);
         ClientDetailHandler clientDetailHandler = new ClientDetailHandler(clientService);
 
-        commandMap.put(1, new ClientPrintOneHandler(clientAddHandler));
-        commandMap.put(2, new ClientPrintTwoHandler(
-                adminCheckResultHandler,
-                adminWinnerCheckHandler,
-                adminLogicHandler,
-                clientListHandler,
-                adminWinnerResultHandler,
-                clientDeleteHandler,
-                clientDetailHandler,
-                clientDao));
-        commandMap.put(3, new ClientPrintThreeHandler(clientInfoHandler, adminWinnerCheckHandler, clientDao));
+//        commandMap.put(1, new ClientPrintOneHandler(clientAddHandler));
+//        commandMap.put(2, new ClientPrintTwoHandler(
+//                adminCheckResultHandler,
+//                adminWinnerCheckHandler,
+//                adminLogicHandler,
+//                clientListHandler,
+//                adminWinnerResultHandler,
+//                clientDeleteHandler,
+//                clientDetailHandler,
+//                clientDao));
+//        commandMap.put(3, new ClientPrintThreeHandler(clientInfoHandler, adminWinnerCheckHandler, clientDao));
+
+        objMap.put("clientService", clientService);//NPE 발생!
+
+        registerCommands();
 
         try {
 
@@ -115,13 +122,56 @@ public class ClientApp {
                     System.out.printf("명령어 실행중 오류 발생: %s\n", e.getClass());
                     System.out.println("==================================================");
                 }
+                System.out.println();
             }
         } catch (Exception e) {
             System.out.println("서버와 통신하는 중에 오류 발생!");
             e.printStackTrace();
         }
+        sqlSession.close();
         Prompt.close();
     }
+
+    private void registerCommands() throws Exception {
+        Properties commandProps = new Properties();
+        commandProps.load(Resources.getResourceAsStream("com/osk2090/pms/conf/commands.properties"));
+
+        Set<Object> keys = commandProps.keySet();
+        for (Object key : keys) {
+            String className = (String) commandProps.get(key);
+            Class<?> clazz = Class.forName(className);
+            Object command = createCommand(clazz);
+            objMap.put((String) key, command);
+            System.out.println("인스턴스 생성 ===> " + command.getClass().getName());
+        }
+    }
+
+    private Object createCommand(Class<?> clazz) throws Exception {
+        Constructor<?> constructor = clazz.getConstructors()[0];
+
+        Parameter[] params = constructor.getParameters();
+
+        ArrayList<Object> args = new ArrayList<>();
+
+        for (Parameter p : params) {
+            Class<?> paramType = p.getType();
+            args.add(findDependency(paramType));
+        }
+
+        return constructor.newInstance(args.toArray());
+    }
+
+    private Object findDependency(Class<?> type) {
+        Collection<?> values = objMap.values();
+
+        for (Object obj : values) {
+            if (type.isInstance(obj)) {
+                return obj;
+            }
+        }
+        return null;
+    }
+
 
     static void printCommandHistory(Iterator<Integer> iterator) {
         int count = 0;
