@@ -1,14 +1,14 @@
 package com.osk2090.pms.handler;
 
-import com.osk2090.pms.dao.ClientDao;
+import com.osk2090.pms.service.ClientService;
 import com.osk2090.util.Prompt;
 
 public class ClientDeleteHandler implements Command {
 
-    ClientDao clientDao;
+    ClientService clientService;
 
-    public ClientDeleteHandler(ClientDao clientDao) {
-        this.clientDao = clientDao;
+    public ClientDeleteHandler(ClientService clientService) {
+        this.clientService = clientService;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class ClientDeleteHandler implements Command {
             return;
         }
 
-        if (clientDao.delete(no) == 0) {
+        if (clientService.delete(no) == 0) {
             System.out.println("해당 번호의 응모자가 없습니다.");
             return;
         } else {

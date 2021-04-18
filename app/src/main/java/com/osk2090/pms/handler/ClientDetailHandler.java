@@ -1,15 +1,15 @@
 package com.osk2090.pms.handler;
 
-import com.osk2090.pms.dao.ClientDao;
 import com.osk2090.pms.domain.Client;
+import com.osk2090.pms.service.ClientService;
 import com.osk2090.util.Prompt;
 
 public class ClientDetailHandler implements Command {
 
-    ClientDao clientDao;
+    ClientService clientService;
 
-    public ClientDetailHandler(ClientDao clientDao) {
-        this.clientDao = clientDao;
+    public ClientDetailHandler(ClientService clientService) {
+        this.clientService = clientService;
     }
 
     @Override
@@ -18,7 +18,7 @@ public class ClientDetailHandler implements Command {
 
         int no = Prompt.promptInt("번호? ");
 
-        Client c = clientDao.findByNo(no);
+        Client c = clientService.get(no);
 
         if (c == null) {
             System.out.println("해당 번호의 응모자가 없습니다.");

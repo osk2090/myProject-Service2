@@ -1,17 +1,17 @@
 package com.osk2090.pms.handler;
 
-import com.osk2090.pms.dao.ClientDao;
 import com.osk2090.pms.domain.Client;
+import com.osk2090.pms.service.ClientService;
 import com.osk2090.util.Prompt;
 
 public class ClientAddHandler implements Command {//완료
 
     static int[] SHOE_SIZE = {250, 255, 260, 265, 270, 275, 280, 285, 290, 300};
     int mySize = 0;
-    ClientDao clientDao;
+    ClientService clientService;
 
-    public ClientAddHandler(ClientDao clientDao) {
-        this.clientDao = clientDao;
+    public ClientAddHandler(ClientService clientService) {
+        this.clientService = clientService;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ClientAddHandler implements Command {//완료
         System.out.println();
         c.setcSize(finSizeCheck(c, mySize));
 
-        clientDao.insert(c);
+        clientService.add(c);
 
         System.out.println("응모에 참여해주셔서 감사합니다.");
     }

@@ -3,6 +3,8 @@ package com.osk2090.pms;
 import com.osk2090.pms.dao.ClientDao;
 import com.osk2090.pms.dao.mariadb.ClientDaoImpl;
 import com.osk2090.pms.handler.*;
+import com.osk2090.pms.service.ClientService;
+import com.osk2090.pms.service.impl.DefaultClientService;
 import com.osk2090.util.Prompt;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -53,19 +55,21 @@ public class ClientApp {
 
         ClientDao clientDao = new ClientDaoImpl(sqlSession);
 
+        ClientService clientService = new DefaultClientService(sqlSession, clientDao);
+
         HashMap<Integer, Command> commandMap = new HashMap<>();
 
         ClientStatusHandler clientStatusHandler = new ClientStatusHandler();
         AdminWinnerResultHandler adminWinnerResultHandler = new AdminWinnerResultHandler();
 
-        ClientAddHandler clientAddHandler = new ClientAddHandler(clientDao);
+        ClientAddHandler clientAddHandler = new ClientAddHandler(clientService);
         AdminCheckResultHandler adminCheckResultHandler = new AdminCheckResultHandler();
         AdminWinnerCheckHandler adminWinnerCheckHandler = new AdminWinnerCheckHandler();
         AdminLogicHandler adminLogicHandler = new AdminLogicHandler();
-        ClientListHandler clientListHandler = new ClientListHandler(clientDao);
+        ClientListHandler clientListHandler = new ClientListHandler(clientService);
         ClientInfoHandler clientInfoHandler = new ClientInfoHandler();
-        ClientDeleteHandler clientDeleteHandler = new ClientDeleteHandler(clientDao);
-        ClientDetailHandler clientDetailHandler = new ClientDetailHandler(clientDao);
+        ClientDeleteHandler clientDeleteHandler = new ClientDeleteHandler(clientService);
+        ClientDetailHandler clientDetailHandler = new ClientDetailHandler(clientService);
 
         commandMap.put(1, new ClientPrintOneHandler(clientAddHandler));
         commandMap.put(2, new ClientPrintTwoHandler(
