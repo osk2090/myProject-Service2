@@ -74,17 +74,17 @@ public class ClientApp {
         ClientDeleteHandler clientDeleteHandler = new ClientDeleteHandler(clientService);
         ClientDetailHandler clientDetailHandler = new ClientDetailHandler(clientService);
 
-//        commandMap.put(1, new ClientPrintOneHandler(clientAddHandler));
-//        commandMap.put(2, new ClientPrintTwoHandler(
-//                adminCheckResultHandler,
-//                adminWinnerCheckHandler,
-//                adminLogicHandler,
-//                clientListHandler,
-//                adminWinnerResultHandler,
-//                clientDeleteHandler,
-//                clientDetailHandler,
-//                clientDao));
-//        commandMap.put(3, new ClientPrintThreeHandler(clientInfoHandler, adminWinnerCheckHandler, clientDao));
+        commandMap.put(1, new ClientPrintOneHandler(clientAddHandler));
+        commandMap.put(2, new ClientPrintTwoHandler(
+                adminCheckResultHandler,
+                adminWinnerCheckHandler,
+                adminLogicHandler,
+                clientListHandler,
+                adminWinnerResultHandler,
+                clientDeleteHandler,
+                clientDetailHandler,
+                clientDao));
+        commandMap.put(3, new ClientPrintThreeHandler(clientInfoHandler, adminWinnerCheckHandler, clientDao));
 
         objMap.put("clientService", clientService);//NPE 발생!
 
