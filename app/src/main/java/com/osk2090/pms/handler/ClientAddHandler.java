@@ -2,8 +2,10 @@ package com.osk2090.pms.handler;
 
 import com.osk2090.pms.domain.Client;
 import com.osk2090.pms.service.ClientService;
+import com.osk2090.streotype.Component;
 import com.osk2090.util.Prompt;
 
+@Component(value = "/client/add")
 public class ClientAddHandler implements Command {//완료
 
     static int[] SHOE_SIZE = {250, 255, 260, 265, 270, 275, 280, 285, 290, 300};

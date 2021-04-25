@@ -2,8 +2,10 @@ package com.osk2090.pms.handler;
 
 import com.osk2090.pms.domain.Client;
 import com.osk2090.pms.service.ClientService;
+import com.osk2090.streotype.Component;
 import com.osk2090.util.Prompt;
 
+@Component(value = "/client/detail")
 public class ClientDetailHandler implements Command {
 
     ClientService clientService;

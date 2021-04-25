@@ -2,9 +2,11 @@ package com.osk2090.pms.handler;
 
 import com.osk2090.pms.domain.Client;
 import com.osk2090.pms.service.ClientService;
+import com.osk2090.streotype.Component;
 
 import java.util.List;
 
+@Component(value = "/client/list")
 public class ClientListHandler implements Command {
 
     ClientService clientService;
