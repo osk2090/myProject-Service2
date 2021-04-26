@@ -37,5 +37,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'com.osk2090.pms.App'
+    mainClass = 'com.osk2090.Client.mybatis.pms.App'
 }
