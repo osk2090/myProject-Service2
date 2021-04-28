@@ -1,11 +1,19 @@
 package com.osk2090.util;
 
-import com.osk2090.pms.domain.Client;
-
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Prompt {
   static Scanner scan = new Scanner(System.in);
+
+  private BufferedReader in;
+  private PrintWriter out;
+
+  public Prompt(BufferedReader in, PrintWriter out) {
+    this.in = in;
+    this.out = out;
+  }
 
   public static String promptString(String title) {//문자열입력
     System.out.println(title);
@@ -53,31 +61,31 @@ public class Prompt {
     return false;
   }
 
-  public static void booleanResult_PN(Client c, String title) {
-    boolean check = true;
-    while (check) {
-      c.setPhone_number(Prompt.promptString(title));
-      if (Prompt.PhoneNumberCheck(c.getPhone_number())) {
-        System.out.println("번호길이 맞습니다.");
-        check = false;
-      } else {
-        System.out.println("번호 길이가 맞지않거나 숫자가 아닙니다.");
-      }
-    }
-  }
+//  public static void booleanResult_PN(Client c, String title) {
+//    boolean check = true;
+//    while (check) {
+//      c.setPhone_number(Prompt.promptString(title));
+//      if (Prompt.PhoneNumberCheck(c.getPhone_number())) {
+//        System.out.println("번호길이 맞습니다.");
+//        check = false;
+//      } else {
+//        System.out.println("번호 길이가 맞지않거나 숫자가 아닙니다.");
+//      }
+//    }
+//  }
 
-  public static void booleanResult_BN(Client c, String title) {
-    boolean check = true;
-    while (check) {
-      c.setBirth_number(Prompt.promptString(title));
-      if (Prompt.BirthNumberCheck(c.getBirth_number())) {
-        System.out.println("생년월일 길이 맞습니다.");
-        check = false;
-      } else {
-        System.out.println("생년월일 길이가 맞지않거나 숫자가 아닙니다.");
-      }
-    }
-  }
+//  public static void booleanResult_BN(Client c, String title) {
+//    boolean check = true;
+//    while (check) {
+//      c.setBirth_number(Prompt.promptString(title));
+//      if (Prompt.BirthNumberCheck(c.getBirth_number())) {
+//        System.out.println("생년월일 길이 맞습니다.");
+//        check = false;
+//      } else {
+//        System.out.println("생년월일 길이가 맞지않거나 숫자가 아닙니다.");
+//      }
+//    }
+//  }
 
   public static void close() {
     scan.close();

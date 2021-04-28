@@ -7,7 +7,7 @@
     <properties resource="com/osk2090/pms/conf/jdbc.properties"></properties>
 
     <typeAliases>
-        <package name="com.osk2090.pms.domain"/>
+        <package name="com.osk2090.Client.mybatis.pms.domain"/>
     </typeAliases>
 
     <environments default="development">
