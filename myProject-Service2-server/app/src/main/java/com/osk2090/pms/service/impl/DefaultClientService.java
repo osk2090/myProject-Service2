@@ -20,7 +20,7 @@ public class DefaultClientService implements ClientService {
     //비즈니스 로직을 수행하는 동안 데이터 처리를 위해 사용할 DAO를 주입 받아야 한다
     ClientDao clientDao;
 
-    public DefaultClientService(SqlSession sqlSession, ClientDao clientDao) {
+    public DefaultClientService(ClientDao clientDao) {
         this.sqlSession = sqlSession;
         this.clientDao = clientDao;
     }

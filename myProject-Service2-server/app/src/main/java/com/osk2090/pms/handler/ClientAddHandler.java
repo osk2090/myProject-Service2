@@ -41,7 +41,7 @@ public class ClientAddHandler implements Command {//완료
             }
             out.print(SHOE_SIZE[i] + " ");
         }
-        System.out.println();
+        out.println();
         c.setcSize(finSizeCheck(c, mySize, request, response));
 
         clientService.add(c);

@@ -2,6 +2,8 @@ package com.osk2090.pms.handler;
 
 
 import com.osk2090.pms.dao.ClientDao;
+import com.osk2090.util.concurrent.CommandRequest;
+import com.osk2090.util.concurrent.CommandResponse;
 
 public class ClientPrintThreeHandler extends AbstractAdminHandler implements Command {
 
@@ -19,7 +21,7 @@ public class ClientPrintThreeHandler extends AbstractAdminHandler implements Com
     ClientDao clientDao;
 
     @Override
-    public void service() throws Exception {
+    public void service(CommandRequest request, CommandResponse response) throws Exception {
         if (this.clientInfoHandler.showCountClients() == 0) {
             System.out.println("입력된 응모자가 없습니다.");
         } else {

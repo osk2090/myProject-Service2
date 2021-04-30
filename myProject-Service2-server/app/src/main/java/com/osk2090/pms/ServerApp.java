@@ -1,6 +1,8 @@
 package com.osk2090.pms;
 
 import com.osk2090.mybatis.MybatisDaoFactory;
+import com.osk2090.mybatis.SqlSessionFactoryProxy;
+import com.osk2090.mybatis.TransactionManager;
 import com.osk2090.pms.dao.ClientDao;
 import com.osk2090.pms.handler.*;
 import com.osk2090.pms.service.ClientService;
@@ -10,7 +12,6 @@ import com.osk2090.util.Prompt;
 import com.osk2090.util.concurrent.CommandRequest;
 import com.osk2090.util.concurrent.CommandResponse;
 import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
@@ -29,6 +30,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class ServerApp {
+
+  CommandRequest request;
+  CommandResponse response;
 
   int port;
 
@@ -65,16 +69,18 @@ public class ServerApp {
 
     // DAO가 사용할 SqlSession 객체 준비
     // => 수동 commit 으로 동작하는 SqlSession 객체를 준비한다.
-    SqlSession sqlSession = sqlSessionFactory.openSession(false);
+    SqlSessionFactoryProxy sqlSessionFactoryProxy = new SqlSessionFactoryProxy(sqlSessionFactory);
 
     // DAO 구현체를 만들어주는 공장 객체를 준비한다.
-    MybatisDaoFactory daoFactory = new MybatisDaoFactory(sqlSession);
+    MybatisDaoFactory daoFactory = new MybatisDaoFactory(sqlSessionFactoryProxy);
 
     // 서비스 객체가 사용할 DAO 객체 준비
     ClientDao clientDao = daoFactory.createDao(ClientDao.class);
 
+    TransactionManager txManager = new TransactionManager(sqlSessionFactoryProxy);
+
     // Command 구현체가 사용할 의존 객체 준비
-    ClientService clientService = new DefaultClientService(sqlSession, clientDao);
+    ClientService clientService = new DefaultClientService(clientDao);
 
     ClientStatusHandler clientStatusHandler = new ClientStatusHandler();
     AdminWinnerResultHandler adminWinnerResultHandler = new AdminWinnerResultHandler();
@@ -82,7 +88,7 @@ public class ServerApp {
     ClientAddHandler clientAddHandler = new ClientAddHandler(clientService);
     AdminCheckResultHandler adminCheckResultHandler = new AdminCheckResultHandler();
     AdminWinnerCheckHandler adminWinnerCheckHandler = new AdminWinnerCheckHandler();
-    AdminLogicHandler adminLogicHandler = new AdminLogicHandler();
+    AdminLogicHandler adminLogicHandler = new AdminLogicHandler(request, response);
     ClientListHandler clientListHandler = new ClientListHandler(clientService);
     ClientInfoHandler clientInfoHandler = new ClientInfoHandler();
     ClientDeleteHandler clientDeleteHandler = new ClientDeleteHandler(clientService);
@@ -201,13 +207,13 @@ public class ServerApp {
           continue;
         }
 
-        CommandRequest request = new CommandRequest(
+        request = new CommandRequest(
                 requestLine,
                 remoteAddr.getHostString(),
                 remoteAddr.getPort(),
                 prompt);
 
-        CommandResponse response = new CommandResponse(out);
+        response = new CommandResponse(out);
 
         // Command 구현체를 실행한다.
         try {

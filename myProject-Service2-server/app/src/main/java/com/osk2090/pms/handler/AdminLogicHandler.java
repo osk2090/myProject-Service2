@@ -2,8 +2,18 @@ package com.osk2090.pms.handler;
 
 import com.osk2090.pms.dao.ClientDao;
 import com.osk2090.util.Prompt;
+import com.osk2090.util.concurrent.CommandRequest;
+import com.osk2090.util.concurrent.CommandResponse;
 
 public class AdminLogicHandler extends AbstractAdminHandler {
+
+  CommandRequest request;
+  CommandResponse response;
+
+  public AdminLogicHandler(CommandRequest request, CommandResponse response) {
+    this.request = request;
+    this.response = response;
+  }
 
   public void adminLogic(ClientListHandler clientListHandler,
                          AdminWinnerResultHandler adminWinnerResultHandler,
@@ -30,11 +40,11 @@ public class AdminLogicHandler extends AbstractAdminHandler {
           continue;
         }
         System.out.println("--------------------------------------------");
-        clientListHandler.service();
+        clientListHandler.service(request, response);
         System.out.println("--------------------------------------------");
         choice = Prompt.promptInt("1.자세히보기 2.나가기");
         if (choice == 1) {
-          clientDetailHandler.service();
+          clientDetailHandler.service(request, response);
         } else if (choice == 2) {
           continue;
         } else {
@@ -46,11 +56,11 @@ public class AdminLogicHandler extends AbstractAdminHandler {
           continue;
         } else {
           try {
-            clientListHandler.service();
+            clientListHandler.service(request, response);
           } catch (Exception e) {
             e.printStackTrace();
           }
-          clientDeleteHandler.service();
+          clientDeleteHandler.service(request, response);
         }
       } else if (choice == 4) {
         System.out.println("로그아웃 되었습니다.");

@@ -1,6 +1,8 @@
 package com.osk2090.pms.handler;
 
 import com.osk2090.util.Prompt;
+import com.osk2090.util.concurrent.CommandRequest;
+import com.osk2090.util.concurrent.CommandResponse;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,8 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class ClientSearchHandler implements Command {
+
     @Override
-    public void service() throws Exception {
+    public void service(CommandRequest request, CommandResponse response) throws Exception {
         String keword = Prompt.promptString("검색어? ");
 
         if (keword.length() == 0) {
