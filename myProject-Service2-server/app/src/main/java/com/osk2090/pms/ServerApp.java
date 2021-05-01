@@ -240,18 +240,6 @@ public class ServerApp {
     }
   }
 
-  // 서버를 최종적으로 종료하는 일을 한다.
-  private void terminate() {
-    // 서버 상태를 종료로 설정한다.
-    isStop = true;
-
-    // 그리고 서버가 즉시 종료할 수 있도록 임의의 접속을 수행한다.
-    // => 스스로 클라이언트가 되어 ServerSocket 에 접속하면
-    //    accept()에서 리턴하기 때문에 isStop 변수의 상태에 따라 반복문을 멈출 것이다.
-    try (Socket socket = new Socket("localhost", 8888)) {
-      // 서버를 종료시키기 위해 임의로 접속하는 것이기 때문에 특별히 추가로 해야 할 일이 없다.
-    } catch (Exception e) {}
-  }
 
   private void registerCommandsFilter() throws Exception {
 
