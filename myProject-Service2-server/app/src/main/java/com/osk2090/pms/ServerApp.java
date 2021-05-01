@@ -8,10 +8,7 @@ import com.osk2090.pms.handler.*;
 import com.osk2090.pms.service.ClientService;
 import com.osk2090.pms.service.impl.DefaultClientService;
 import com.osk2090.stereotype.Component;
-import com.osk2090.util.CommandFilter;
-import com.osk2090.util.FilterList;
-import com.osk2090.util.Prompt;
-import com.osk2090.util.Session;
+import com.osk2090.util.*;
 import com.osk2090.util.concurrent.CommandRequest;
 import com.osk2090.util.concurrent.CommandResponse;
 import org.apache.ibatis.io.Resources;
@@ -24,10 +21,7 @@ import java.lang.reflect.Parameter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +37,9 @@ public class ServerApp {
 
   // 객체를 보관할 컨테이너 준비
   Map<String,Object> objMap = new HashMap<>();
+
+  //필터를 보관할 컬렉션 준비
+  List<Filter> filters = new ArrayList<>();
 
   public static void main(String[] args) {
 
@@ -111,7 +108,7 @@ public class ServerApp {
     objMap.put("3", new ClientPrintThreeHandler(clientInfoHandler, adminWinnerCheckHandler, clientDao));
 
     // Command 구현체를 자동 생성하여 맵에 등록
-    registerCommands();
+    registerCommandsFilter();
 
     try (ServerSocket serverSocket = new ServerSocket(this.port)) {
       System.out.println("서버 실행!");
@@ -218,6 +215,10 @@ public class ServerApp {
 
       filterList.add(commandFilter);
 
+      for (Filter filter : filters) {
+        filterList.add(filter);
+      }
+
       out.println("OK");
       out.println();
 
@@ -252,17 +253,17 @@ public class ServerApp {
     } catch (Exception e) {}
   }
 
-  private void registerCommands() throws Exception {
+  private void registerCommandsFilter() throws Exception {
 
     // 패키지에 소속된 모든 클래스의 타입 정보를 알아낸다.
     ArrayList<Class<?>> components = new ArrayList<>();
-    loadComponents("com.osk2090.pms.handler", components);
+    loadComponents("com.osk2090.pms", components);
 
     for (Class<?> clazz : components) {
-
-      // 클래스 목록에서 클래스 정보를 한 개 꺼내, Command 구현체인지 검사한다.
-      if (!isCommand(clazz)) {
-        continue;
+      if (isType(clazz, Command.class)) {
+        prepareCommand(clazz);
+      } else if (isType(clazz, Filter.class)) {
+        prepareFilter(clazz);
       }
 
       // 클래스 정보를 이용하여 객체를 생성한다.
@@ -284,6 +285,42 @@ public class ServerApp {
 
       System.out.println("인스턴스 생성 ===> " + command.getClass().getName());
     }
+  }
+
+  private void prepareCommand(Class<?> clazz)throws Exception {
+    Object command = createObject(clazz);
+    Component compAnno = clazz.getAnnotation(Component.class);
+
+    String key = null;
+    if (compAnno.value().length() == 0) {
+      key = clazz.getName();
+    } else {
+      key = compAnno.value();
+    }
+    objMap.put(key, command);
+    System.out.println("Command 생성 ===> " + command.getClass().getName());
+  }
+
+  private void prepareFilter(Class<?>clazz)throws Exception {
+    Object filter = createObject(clazz);
+    filters.add((Filter) filter);
+
+    System.out.println("Filter 생성 : " + clazz.getName());
+  }
+
+  private boolean isType(Class<?> type,Class<?> target) {
+    if (type.isInterface()) {
+      return false;
+    }
+
+    Class<?>[] interfaces = type.getInterfaces();
+
+    for (Class<?> i : interfaces) {
+      if (i == target) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean isCommand(Class<?> type) {
@@ -335,6 +372,26 @@ public class ServerApp {
         }
       }
     }
+  }
+
+  private Object createObject(Class<?> clazz) throws Exception {
+    // 생성자 정보를 알아낸다. 첫 번째 생성자만 꺼낸다.
+    Constructor<?> constructor = clazz.getConstructors()[0];
+
+    // 생성자의 파라미터 정보를 알아낸다.
+    Parameter[] params = constructor.getParameters();
+
+    // 생성자를 호출할 때 넘겨 줄 값을 담을 컬렉션을 준비한다.
+    ArrayList<Object> args = new ArrayList<>();
+
+    // 각 파라미터의 타입을 알아낸 후 objMap에서 찾는다.
+    for (Parameter p : params) {
+      Class<?> paramType = p.getType();
+      args.add(findDependency(paramType));
+    }
+
+    // 생성자를 호출하여 인스턴스를 생성한다.
+    return constructor.newInstance(args.toArray());
   }
 
   private Object createCommand(Class<?> clazz) throws Exception {
