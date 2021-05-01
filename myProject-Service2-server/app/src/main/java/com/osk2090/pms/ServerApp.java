@@ -8,7 +8,10 @@ import com.osk2090.pms.handler.*;
 import com.osk2090.pms.service.ClientService;
 import com.osk2090.pms.service.impl.DefaultClientService;
 import com.osk2090.stereotype.Component;
+import com.osk2090.util.CommandFilter;
+import com.osk2090.util.FilterList;
 import com.osk2090.util.Prompt;
+import com.osk2090.util.Session;
 import com.osk2090.util.concurrent.CommandRequest;
 import com.osk2090.util.concurrent.CommandResponse;
 import org.apache.ibatis.io.Resources;
@@ -165,67 +168,71 @@ public class ServerApp {
       // 클라이언트로부터 값을 입력 받을 때 사용할 객체를 준비한다.
       Prompt prompt = new Prompt(in, out);
 
+      Session session = new Session();
+
+      String requestLine = in.readLine();
+
       while (true) {
         // 클라이언트가 보낸 요청을 읽는다.
-        String requestLine = in.readLine();
-
-        // 클라이언트가 보낸 나머지 데이터를 읽는다.
-        while (true) {
-          String line = in.readLine();
-          if (line.length() == 0) {
-            break;
-          }
-          // 지금은 '요청 명령' 과 '빈 줄' 사이에 존재하는 데이터는 무시한다.
+        String line = in.readLine();
+        if (line.length() == 0) {
+          break;
         }
-
-        // 클라이언트 요청에 대해 기록(log)을 남긴다.
-        System.out.printf("[%s:%d] %s\n",
-                remoteAddr.getHostString(), remoteAddr.getPort(), requestLine);
-
-
-        if (requestLine.equalsIgnoreCase("serverstop")) {
-          out.println("Server stopped!");
-          out.println();
-          out.flush();
-          terminate();
-          return;
-        }
-
-        if (requestLine.equalsIgnoreCase("exit") || requestLine.equalsIgnoreCase("quit")) {
-          out.println("Goodbye!");
-          out.println();
-          out.flush();
-          return;
-        }
-
-        // 클라이언트의 요청을 처리할 Command 구현체를 찾는다.
-        Command command = (Command) objMap.get(requestLine);
-        if (command == null) {
-          out.println("해당 명령을 처리할 수 없습니다!");
-          out.println();
-          out.flush();
-          continue;
-        }
-
-        request = new CommandRequest(
-                requestLine,
-                remoteAddr.getHostString(),
-                remoteAddr.getPort(),
-                prompt);
-
-        response = new CommandResponse(out);
-
-        // Command 구현체를 실행한다.
-        try {
-          command.service(request, response);
-        } catch (Exception e) {
-          out.println("서버 오류 발생!");
-          e.printStackTrace();
-        }
-        out.println();
-        out.flush();
+        // 지금은 '요청 명령' 과 '빈 줄' 사이에 존재하는 데이터는 무시한다.
       }
 
+      // 클라이언트 요청에 대해 기록(log)을 남긴다.
+      System.out.printf("[%s:%d] %s\n",
+              remoteAddr.getHostString(), remoteAddr.getPort(), requestLine);
+
+
+      if (requestLine.equalsIgnoreCase("serverstop")) {
+        out.println("Server stopped!");
+        out.println();
+        out.flush();
+        terminate();
+        return;
+      }
+
+      // 클라이언트의 요청을 처리할 Command 구현체를 찾는다.
+      Command command = (Command) objMap.get(requestLine);
+      if (command == null) {
+        out.println("해당 명령을 처리할 수 없습니다!");
+        out.println();
+        out.flush();
+        return;
+      }
+
+      request = new CommandRequest(
+              requestLine,
+              remoteAddr.getHostString(),
+              remoteAddr.getPort(),
+              prompt,
+              session);
+
+      response = new CommandResponse(out);
+
+      FilterList filterList = new FilterList();
+
+      CommandFilter commandFilter = new CommandFilter(command);
+
+      filterList.add(commandFilter);
+
+      out.println("OK");
+      out.println();
+
+      // Command 구현체를 실행한다.
+      try {
+        filterList.getHeaderChain().doFilter(request, response);
+
+        out.println();
+        out.flush();
+      } catch (Exception e) {
+        out.println("서버 오류 발생!");
+        out.println();
+        out.flush();
+        throw e;
+      }
     } catch (Exception e) {
       System.out.println("클라이언트의 요청을 처리하는 중에 오류 발생!");
       e.printStackTrace();
