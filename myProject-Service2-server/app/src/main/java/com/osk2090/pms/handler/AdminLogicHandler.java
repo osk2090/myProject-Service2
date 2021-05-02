@@ -1,16 +1,19 @@
 package com.osk2090.pms.handler;
 
 import com.osk2090.pms.dao.ClientDao;
+import com.osk2090.pms.web.ClientDetailHandler;
+import com.osk2090.pms.web.ClientListHandler;
 import com.osk2090.util.Prompt;
-import com.osk2090.util.concurrent.CommandRequest;
-import com.osk2090.util.concurrent.CommandResponse;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 public class AdminLogicHandler extends AbstractAdminHandler {
 
-  CommandRequest request;
-  CommandResponse response;
+  ServletRequest request;
+  ServletResponse response;
 
-  public AdminLogicHandler(CommandRequest request, CommandResponse response) {
+  public AdminLogicHandler(ServletRequest request, ServletResponse response) {
     this.request = request;
     this.response = response;
   }
@@ -44,7 +47,7 @@ public class AdminLogicHandler extends AbstractAdminHandler {
         System.out.println("--------------------------------------------");
         choice = Prompt.promptInt("1.자세히보기 2.나가기");
         if (choice == 1) {
-          clientDetailHandler.service(request, response);
+//          clientDetailHandler.service(request, response);
         } else if (choice == 2) {
           continue;
         } else {
@@ -60,7 +63,7 @@ public class AdminLogicHandler extends AbstractAdminHandler {
           } catch (Exception e) {
             e.printStackTrace();
           }
-          clientDeleteHandler.service(request, response);
+//          clientDeleteHandler.service(request, response);
         }
       } else if (choice == 4) {
         System.out.println("로그아웃 되었습니다.");
