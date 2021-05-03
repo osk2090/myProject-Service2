@@ -8,8 +8,13 @@
 
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
-    id 'application'
+//    id 'application'
     id 'java'
+    id 'war'
+}
+
+war {
+    archiveBaseName = "pms"
 }
 
 repositories {
@@ -24,6 +29,8 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
     implementation 'org.mybatis:mybatis:3.5.6'
 
@@ -35,7 +42,7 @@ dependencies {
     implementation 'com.google.guava:guava:29.0-jre'
 }
 
-application {
-    // Define the main class for the application.
-    mainClass = 'com.osk2090.Client.mybatis.pms.App'
-}
+//application {
+//    // Define the main class for the application.
+//    mainClass = 'com.osk2090.Client.mybatis.pms.App'
+//}

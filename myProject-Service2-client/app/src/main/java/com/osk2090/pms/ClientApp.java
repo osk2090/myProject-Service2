@@ -10,16 +10,8 @@ import java.net.Socket;
 
 public class ClientApp {
 
-  String serverAddress;
-  int port;
-
   public static void main(String[] args) {
-
-    String serverAddress = Prompt.promptString("서버 주소? ");
-    int port = Prompt.promptInt("서버 포트? ");
-
-    ClientApp app = new ClientApp(serverAddress, port);
-
+    ClientApp app = new ClientApp();
     try {
       app.execute();
 
@@ -29,72 +21,63 @@ public class ClientApp {
     }
   }
 
-  public ClientApp(String serverAddress, int port) {
-    this.serverAddress = serverAddress;
-    this.port = port;
-  }
-
   public void execute() throws Exception {
-    // Stateful 통신 방식
-    try (
-            // 1) 서버와 연결하기
-            Socket socket = new Socket(serverAddress, port);
+    // Stateless 통신 방식
 
-            // 2) 데이터 입출력 스트림 객체를 준비
-            PrintWriter out = new PrintWriter(socket.getOutputStream());
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-    ) {
-
-      while (true) {
-        String choice = String.valueOf(Prompt.promptInt("-Nike-\n-Draw-\n1. 응모자 2. 관리자 3. 당첨자 수령하기 0. 종료"));
-        if (choice.length() == 0) {
-          continue;
-        }
-
-        // 서버에게 명령을 보낸다.
-        out.println(choice);
-        out.println();
-        out.flush();
-
-        // 서버가 보낸 데이터를 출력한다.
-        String line = null;
-        while (true) {
-          line = in.readLine();
-
-          if (line.length() == 0) {
-            break;
-
-          } else if (line.equals("!{}!")) {
-            // 서버에서 입력을 요구한다면
-            // - 사용자로부터 입력을 받는다.
-            String input = Prompt.promptString("입력> ");
-
-            // - 입력 받은 내용을 서버에게 보낸다.
-            out.println(input);
-            out.flush();
-
-          } else {
-            System.out.println(line);
-          }
-        }
-        System.out.println(); // 이전 명령의 실행을 구분하기 위해 빈 줄 출력
-
-        if (choice.equalsIgnoreCase("0")) {
-          System.out.println("종료합니다!");
-          break;
-        }
-        if (!choice.equalsIgnoreCase("1") ||
-                !choice.equalsIgnoreCase("2") ||
-                !choice.equalsIgnoreCase("3")) {
-          System.out.println("다시 선택해주세요!");
-          break;
-        }
+    while (true) {
+      String choice = String.valueOf(Prompt.promptInt("-Nike-\n-Draw-\n1. 응모자 2. 관리자 3. 당첨자 수령하기 0. 종료"));
+      if (choice.length() == 0) {
+        continue;
       }
 
+      if (choice.equalsIgnoreCase("0")) {
+        System.out.println("종료합니다!");
+        break;
+      }
+      if (!choice.equalsIgnoreCase("1") ||
+              !choice.equalsIgnoreCase("2") ||
+              !choice.equalsIgnoreCase("3")) {
+        System.out.println("다시 선택해주세요!");
+        break;
+      }
+
+    }
+  }
+
+  private void requestService(String input) {
+    int i = input.indexOf("/");
+    String command = input.substring(i);
+
+    String[] values = input.substring(0, i).split(":");
+    String serverAddress = values[0];
+    int port = 8080;
+    if (values.length > 1) {
+      port = Integer.parseInt(values[1]);
+    }
+
+    try (Socket socket = new Socket(serverAddress, port);
+         PrintWriter out = new PrintWriter(socket.getOutputStream());
+         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+      out.println(command);
+      out.println();
+      out.flush();
+
+      String line = null;
+      while (true) {
+        line = in.readLine();
+
+        if (line.length() == 0) {
+          break;
+        } else if (line.equals("!{}!")) {
+          String choice = String.valueOf(Prompt.promptInt("-Nike-\n-Draw-\n1. 응모자 2. 관리자 3. 당첨자 수령하기 0. 종료"));
+          out.println(choice);
+          out.flush();
+        } else {
+          System.out.println(line);
+        }
+      }
     } catch (Exception e) {
       System.out.println("통신 오류 발생!");
     }
-
-    Prompt.close();
   }
 }
