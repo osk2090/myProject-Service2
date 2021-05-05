@@ -33,8 +33,7 @@ public class ClientListHandler implements Servlet {
         } catch (Exception e) {
             StringWriter strWriter = new StringWriter();
             PrintWriter printWriter = new PrintWriter(strWriter);
-            e.printStackTrace();
-
+            e.printStackTrace(printWriter);
             out.println(strWriter.toString());
         }
 

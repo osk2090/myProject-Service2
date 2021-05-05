@@ -6,3 +6,4 @@ import com.osk2090.util.concurrent.CommandResponse;
 public interface Filter {
     void doFilter(CommandRequest request, CommandResponse response, FilterChain nextChain) throws Exception;
 }
+ 

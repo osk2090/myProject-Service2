@@ -17,8 +17,8 @@ import java.io.StringWriter;
 public class ClientAddHandler extends HttpServlet {
     //client/add?name=osk&pn=11111111111&bn=222222&id=ooo&size=275
 
-    static int[] SHOE_SIZE = {250, 255, 260, 265, 270, 275, 280, 285, 290, 300};
-    int mySize = 0;
+//    static int[] SHOE_SIZE = {250, 255, 260, 265, 270, 275, 280, 285, 290, 300};
+//    int mySize = 0;
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
@@ -29,28 +29,6 @@ public class ClientAddHandler extends HttpServlet {
         response.setContentType("text/plain;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-//        out.println("[응모자 등록]");
-//
-//        Client c = new Client();
-//
-//        c.setName(request.getParameter("name"));//정보입력응모자 이름:
-////        booleanResult_PN(c, request, response);//"응모자 전화번호\n예)01012345678-11자리:"
-////        booleanResult_BN(c, request, response);//"응모자 생년월일\n예)900101-6자리:"
-//        c.setPhone_number(request.getParameter("pn"));
-//        c.setBirth_number(request.getParameter("bn"));
-//        c.setId(request.getParameter("id"));//나이키 닷컴 아이디를 기재해주세요.나이키 멤버만 구매 가능합니다.
-//        c.setcSize(Integer.parseInt(request.getParameter("size")));
-
-//        out.println("NIKE DUNK LOW RETRO (DD1390-100)");
-//        out.println("금액: 129.000 krw");
-//        for (int i = 0; i < SHOE_SIZE.length; i++) {
-//            if (i % 5 == 0) {
-//                System.out.println();//두줄로 나누기
-//            }
-//            out.print(SHOE_SIZE[i] + " ");
-//        }
-//        out.println();
-
         try {
             out.println("[응모자 등록]");
 
@@ -60,7 +38,7 @@ public class ClientAddHandler extends HttpServlet {
             c.setPhone_number(request.getParameter("pn"));
             c.setBirth_number(request.getParameter("bn"));
             c.setId(request.getParameter("id"));//나이키 닷컴 아이디를 기재해주세요.나이키 멤버만 구매 가능합니다.
-            c.setcSize(Integer.parseInt(request.getParameter("size")));
+            c.setcSize(request.getParameter("size"));
 //            c.setcSize(finSizeCheck(c, mySize, request, response));
             out.println("1111111111");
             clientService.add(c);
