@@ -8,6 +8,8 @@ com/osk2090/pms/web/ClientDeleteHandler.java
  com.osk2090.pms.web.ClientDeleteHandler
 com/osk2090/pms/web/ClientPrintThreeHandler.java
  com.osk2090.pms.web.ClientPrintThreeHandler
+com/osk2090/mybatis/SqlSessionFactoryProxy.java
+ com.osk2090.mybatis.SqlSessionFactoryProxy
 com/osk2090/mybatis/TransactionCallback.java
  com.osk2090.mybatis.TransactionCallback
 com/osk2090/pms/domain/Client.java
@@ -24,8 +26,8 @@ com/osk2090/pms/web/ClientListHandler.java
  com.osk2090.pms.web.ClientListHandler
 com/osk2090/mybatis/TransactionManager.java
  com.osk2090.mybatis.TransactionManager
-com/osk2090/mybatis/SqlSessionFactoryProxy.java
- com.osk2090.mybatis.SqlSessionFactoryProxy
+com/osk2090/pms/web/AppInitHandler.java
+ com.osk2090.pms.web.AppInitHandler
 com/osk2090/pms/web/AbstractAdminHandler.java
  com.osk2090.pms.web.AbstractAdminHandler
 com/osk2090/pms/web/ClientAddHandler.java
@@ -60,5 +62,3 @@ com/osk2090/mybatis/DaoWorker.java
  com.osk2090.mybatis.DaoWorker
 com/osk2090/pms/web/MenuHandler.java
  com.osk2090.pms.web.MenuHandler
-com/osk2090/pms/web/AppInitHandler.java
- com.osk2090.pms.web.AppInitHandler
