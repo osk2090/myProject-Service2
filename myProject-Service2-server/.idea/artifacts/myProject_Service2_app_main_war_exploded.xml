@@ -20,6 +20,7 @@
         </element>
       </element>
       <element id="javaee-facet-resources" facet="myProject-Service2.app.main/web/웹 Gradle : pms.war" />
+      <element id="artifact" artifact-name="Gradle : myProject-Service2 : pms.war (exploded)" />
     </root>
   </artifact>
 </component>

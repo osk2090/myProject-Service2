@@ -4,7 +4,6 @@ import com.osk2090.mybatis.MybatisDaoFactory;
 import com.osk2090.mybatis.SqlSessionFactoryProxy;
 import com.osk2090.mybatis.TransactionManager;
 import com.osk2090.pms.dao.ClientDao;
-import com.osk2090.pms.handler.*;
 import com.osk2090.pms.service.ClientService;
 import com.osk2090.pms.service.impl.DefaultClientService;
 import org.apache.ibatis.io.Resources;
@@ -43,28 +42,26 @@ public class AppInitHandler implements Servlet {
             ClientAddHandler clientAddHandler = new ClientAddHandler();
             AdminCheckResultHandler adminCheckResultHandler = new AdminCheckResultHandler();
             AdminWinnerCheckHandler adminWinnerCheckHandler = new AdminWinnerCheckHandler();
-//            AdminLogicHandler adminLogicHandler = new AdminLogicHandler(request, response);
+            AdminLogicHandler adminLogicHandler = new AdminLogicHandler(request, response);
             ClientListHandler clientListHandler = new ClientListHandler();
             ClientInfoHandler clientInfoHandler = new ClientInfoHandler();
-            ClientDeleteHandler clientDeleteHandler = new ClientDeleteHandler(clientService);
+            ClientDeleteHandler clientDeleteHandler = new ClientDeleteHandler();
             ClientDetailHandler clientDetailHandler = new ClientDetailHandler();
 
             ServletContext servletContext = config.getServletContext();
 
             // Command 구현체가 사용할 의존 객체를 보관
-//            servletContext.setAttribute("1", new ClientPrintOneHandler(clientAddHandler));
-            servletContext.setAttribute("clientService", clientService);
-
-//            servletContext.setAttribute("2", new ClientPrintTwoHandler(
-//                    adminCheckResultHandler,
-//                    adminWinnerCheckHandler,
-//                    adminLogicHandler,
-//                    clientListHandler,
-//                    adminWinnerResultHandler,
-//                    clientDeleteHandler,
-//                    clientDetailHandler,
-//                    clientDao));
-//            servletContext.setAttribute("3", new ClientPrintThreeHandler(clientInfoHandler, adminWinnerCheckHandler, clientDao));
+            servletContext.setAttribute("1", new ClientPrintOneHandler(clientAddHandler));
+            servletContext.setAttribute("2", new ClientPrintTwoHandler(
+                    adminCheckResultHandler,
+                    adminWinnerCheckHandler,
+                    adminLogicHandler,
+                    clientListHandler,
+                    adminWinnerResultHandler,
+                    clientDeleteHandler,
+                    clientDetailHandler,
+                    clientDao));
+            servletContext.setAttribute("3", new ClientPrintThreeHandler(clientInfoHandler, adminWinnerCheckHandler, clientDao));
 
             System.out.println("의존 객체를 모두 준비하였습니다.");
 
