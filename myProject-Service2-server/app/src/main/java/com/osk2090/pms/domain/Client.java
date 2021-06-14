@@ -10,7 +10,7 @@ public class Client {
     private String phone_number;//응모자 전화번호
     private String birth_number;//응모자 생년월일
     private String id;//응모자 나이키 아이디
-    private int cSize;//응모자 사이즈
+    private String cSize;//응모자 사이즈
     private int no;//인덱스 번호
 
     public Client() {}
@@ -60,11 +60,11 @@ public class Client {
         this.id = id;
     }
 
-    public int getcSize() {
+    public String getcSize() {
         return cSize;
     }
 
-    public void setcSize(int cSize) {
+    public void setcSize(String cSize) {
         this.cSize = cSize;
     }
 

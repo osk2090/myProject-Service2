@@ -34,7 +34,10 @@ public class ClientListHandler implements Servlet {
             StringWriter strWriter = new StringWriter();
             PrintWriter printWriter = new PrintWriter(strWriter);
             e.printStackTrace(printWriter);
+<<<<<<< HEAD
             
+=======
+>>>>>>> c7c516275d115e769b4fc5eaf3caef111207169a
             out.println(strWriter.toString());
         }
 

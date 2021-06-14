@@ -17,8 +17,8 @@ import java.io.StringWriter;
 public class ClientAddHandler extends HttpServlet {
     //client/add?name=osk&pn=11111111111&bn=222222&id=ooo&size=275
 
-    static int[] SHOE_SIZE = {250, 255, 260, 265, 270, 275, 280, 285, 290, 300};
-    int mySize = 0;
+//    static int[] SHOE_SIZE = {250, 255, 260, 265, 270, 275, 280, 285, 290, 300};
+//    int mySize = 0;
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
@@ -26,54 +26,60 @@ public class ClientAddHandler extends HttpServlet {
 
         ClientService clientService = (ClientService) request.getServletContext().getAttribute("clientService");
 
-        response.setContentType("text/plain;charset=UTF-8");
+        Client c = new Client();
+
+        response.setCharacterEncoding("UTF-8");
+
+        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-//        out.println("[응모자 등록]");
-//
-//        Client c = new Client();
-//
-//        c.setName(request.getParameter("name"));//정보입력응모자 이름:
-////        booleanResult_PN(c, request, response);//"응모자 전화번호\n예)01012345678-11자리:"
-////        booleanResult_BN(c, request, response);//"응모자 생년월일\n예)900101-6자리:"
-//        c.setPhone_number(request.getParameter("pn"));
-//        c.setBirth_number(request.getParameter("bn"));
-//        c.setId(request.getParameter("id"));//나이키 닷컴 아이디를 기재해주세요.나이키 멤버만 구매 가능합니다.
-//        c.setcSize(Integer.parseInt(request.getParameter("size")));
+        out.println("[응모자 등록]");
 
-//        out.println("NIKE DUNK LOW RETRO (DD1390-100)");
-//        out.println("금액: 129.000 krw");
-//        for (int i = 0; i < SHOE_SIZE.length; i++) {
-//            if (i % 5 == 0) {
-//                System.out.println();//두줄로 나누기
-//            }
-//            out.print(SHOE_SIZE[i] + " ");
-//        }
-//        out.println();
+        out.println("개인정보 수집 및 이용에 동의합니다.[Y/N]");
+        out.println("당첨 되실 경우 당첨자 본인만 당첨 매장에 방문하여 수령 가능합니다.[Y/N]");
+        out.println("당첨자는 본인 확인을 위해 신분증 및 핸드폰으로 받으신 SMS(원본)을 확인하오니 지참해주시기 바랍니다.[Y/N]");
+        out.println("당첨자는 공지 드리는 구매 기간 외에는 구매 불가하며, 카드 결제시 본인 명의 카드로만 결제가 가능합니다.[Y/N]");
+        out.println("다음 진행");
 
-        try {
-            out.println("[응모자 등록]");
-
-            Client c = new Client();
-
-            c.setName(request.getParameter("name"));//정보입력응모자 이름:
-            c.setPhone_number(request.getParameter("pn"));
-            c.setBirth_number(request.getParameter("bn"));
-            c.setId(request.getParameter("id"));//나이키 닷컴 아이디를 기재해주세요.나이키 멤버만 구매 가능합니다.
-            c.setcSize(Integer.parseInt(request.getParameter("size")));
+        c.setName(request.getParameter("name"));//정보입력응모자 이름:
+        c.setPhone_number(request.getParameter("pn"));
+        c.setBirth_number(request.getParameter("bn"));
+        c.setId(request.getParameter("id"));//나이키 닷컴 아이디를 기재해주세요.나이키 멤버만 구매 가능합니다.
+        c.setcSize(request.getParameter("size"));
 //            c.setcSize(finSizeCheck(c, mySize, request, response));
+<<<<<<< HEAD
             out.println("1111111111");
             out.println(clientService);
+=======
+
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>응모자 등록</title>");
+
+        try {
+>>>>>>> c7c516275d115e769b4fc5eaf3caef111207169a
             clientService.add(c);
-            out.println("222222");
-            out.println("응모에 참여해주셔서 감사합니다.");
+            out.println("<meta http-equiv='Refresh' content='1;url=list'>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>게시글 등록</h1>");
+            out.println("<p>응모를 완료하였습니다.</p>");
+            out.println("<p1>응모에 참여해주셔서 감사합니다.</p1>");
         } catch (Exception e) {
             StringWriter strWriter = new StringWriter();
             PrintWriter printWriter = new PrintWriter(strWriter);
             e.printStackTrace(printWriter);
-            out.println(strWriter.toString());
+
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>응모자 등록 오류</h1>");
+            out.printf("<pre>%s</pre>\n", strWriter.toString());
+            out.println("<p><a href='list'>목록</a></p>");
         }
 
+        out.println("</body>");
+        out.println("</html>");
     }
 
 
