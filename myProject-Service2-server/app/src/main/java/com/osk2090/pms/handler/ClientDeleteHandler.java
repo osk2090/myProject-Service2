@@ -1,14 +1,14 @@
 package com.osk2090.pms.handler;
 
 import com.osk2090.pms.service.ClientService;
-import com.osk2090.stereotype.Component;
 import com.osk2090.util.Prompt;
 import com.osk2090.util.concurrent.CommandRequest;
 import com.osk2090.util.concurrent.CommandResponse;
 
+import javax.servlet.annotation.WebServlet;
 import java.io.PrintWriter;
 
-@Component(value = "/client/delete")
+@WebServlet(value = "/client/delete")
 public class ClientDeleteHandler implements Command {
 
     ClientService clientService;

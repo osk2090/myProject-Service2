@@ -19,15 +19,14 @@ import java.io.InputStream;
 @WebServlet(value = "/init", loadOnStartup = 1)
 public class AppInitHandler implements Servlet {
 
-    ServletRequest request;
-    ServletResponse response;
+//    ServletRequest request;
+//    ServletResponse response;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         try {
             InputStream mybatisConfigStream = Resources.getResourceAsStream(
                     "com/osk2090/pms/conf/mybatis-config.xml");
-
             // SqlSessionFactory 객체 준비
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(mybatisConfigStream);
 
@@ -52,7 +51,7 @@ public class AppInitHandler implements Servlet {
             ClientAddHandler clientAddHandler = new ClientAddHandler();
             AdminCheckResultHandler adminCheckResultHandler = new AdminCheckResultHandler();
             AdminWinnerCheckHandler adminWinnerCheckHandler = new AdminWinnerCheckHandler();
-            AdminLogicHandler adminLogicHandler = new AdminLogicHandler(request, response);
+//            AdminLogicHandler adminLogicHandler = new AdminLogicHandler(request, response);
             ClientListHandler clientListHandler = new ClientListHandler();
             ClientInfoHandler clientInfoHandler = new ClientInfoHandler();
             ClientDeleteHandler clientDeleteHandler = new ClientDeleteHandler(clientService);

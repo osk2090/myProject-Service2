@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.osk2090.Client.mybatis.pms.AppTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-05-01T14:43:55" hostname="DESKTOP-GN2BPQJ" time="0.003">
-  <properties/>
-  <testcase name="testAppHasAGreeting" classname="com.osk2090.Client.mybatis.pms.AppTest" time="0.003"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

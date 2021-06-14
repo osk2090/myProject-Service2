@@ -3,6 +3,10 @@ package com.osk2090.util;
 import com.osk2090.util.concurrent.CommandRequest;
 import com.osk2090.util.concurrent.CommandResponse;
 
+// FilterChain 규칙에 따라 구현한다.
+// => 다음 체인의 주소를 보관해야 한다.
+// => 실행할 필터를 보관해야 한다.
+//
 public class DefaultFilterChain implements FilterChain {
 
     private FilterChain nextChain;
@@ -15,6 +19,7 @@ public class DefaultFilterChain implements FilterChain {
 
     @Override
     public void doFilter(CommandRequest request, CommandResponse response) throws Exception {
+        // 개발자가 만든 기능을 실행한다.
         filter.doFilter(request, response, nextChain);
     }
 

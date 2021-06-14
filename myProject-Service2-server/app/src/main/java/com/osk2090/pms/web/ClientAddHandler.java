@@ -63,6 +63,7 @@ public class ClientAddHandler extends HttpServlet {
             c.setcSize(Integer.parseInt(request.getParameter("size")));
 //            c.setcSize(finSizeCheck(c, mySize, request, response));
             out.println("1111111111");
+            out.println(clientService);
             clientService.add(c);
             out.println("222222");
             out.println("응모에 참여해주셔서 감사합니다.");
