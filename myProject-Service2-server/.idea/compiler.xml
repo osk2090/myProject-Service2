@@ -2,8 +2,6 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="myProject-Service2.app" target="11" />
-      <module name="myProject-Service2.app.main" target="11" />
       <module name="myProject-Service2.app.test" target="11" />
     </bytecodeTargetLevel>
   </component>

@@ -1,55 +1,24 @@
 package com.osk2090.pms.domain;
 
-import java.util.Objects;
-
 public class Client {
 
     private static final long serialVersionUID = 1L;
 
-    private String name;//응모자 이름
-    private String phone_number;//응모자 전화번호
-    private String birth_number;//응모자 생년월일
     private String id;//응모자 나이키 아이디
-    private String cSize;//응모자 사이즈
-    private int no;//인덱스 번호
-
-    public Client() {}
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone_number() {
-        return phone_number;
-    }
+    private String password;
+    private String name;//응모자 이름
+    private String tel;//응모자 전화번호
+    private String birth;//응모자 생년월일
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Client client = (Client) o;
-        return Objects.equals(name, client.name) && Objects.equals(phone_number, client.phone_number) && Objects.equals(id, client.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, phone_number, id);//이름 전화번호 아이디
-    }
-
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
-    }
-
-    public String getBirth_number() {
-        return birth_number;
-    }
-
-    public void setBirth_number(String birth_number) {
-        this.birth_number = birth_number;
+    public String toString() {
+        return "Client{" +
+                "id='" + id + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", tel='" + tel + '\'' +
+                ", birth='" + birth + '\'' +
+                '}';
     }
 
     public String getId() {
@@ -60,19 +29,35 @@ public class Client {
         this.id = id;
     }
 
-    public String getcSize() {
-        return cSize;
+    public String getPassword() {
+        return password;
     }
 
-    public void setcSize(String cSize) {
-        this.cSize = cSize;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public int getNo() {
-        return no;
+    public String getName() {
+        return name;
     }
 
-    public void setNo(int no) {
-        this.no = no;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
     }
 }

@@ -3,63 +3,42 @@ package com.osk2090.pms.web;
 import com.osk2090.pms.domain.Client;
 import com.osk2090.pms.service.ClientService;
 
-import javax.servlet.*;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.List;
 
-@WebServlet("/client/list")
-public class ClientListHandler implements Servlet {
+@SuppressWarnings("serial")
+@WebServlet("/member/add")
+public class MemberAddHandler extends HttpServlet {
     @Override
     public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
-
         ClientService clientService = (ClientService) request.getServletContext().getAttribute("clientService");
+
         response.setContentType("text/plain;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        out.println("응모자 목록");
-
         try {
-            List<Client> list = clientService.list();
+            out.println("[Nike 회원 등록]");
 
-            for (Client c : list) {
-                out.printf("%d,%s,%s\n",
-                        c.getNo(),
-                        c.getName(),
-                        c.getId());
-            }
+            Client client = new Client();
+            client.setId(request.getParameter("id"));
+            client.setName(request.getParameter("name"));
+            client.setPassword(request.getParameter("password"));
+            client.setBirth(request.getParameter("birth"));
+            client.setTel(request.getParameter("tel"));
+
+            clientService.add(client);
+            out.println("Nike 회원이 되신걸 환영합니다!");
         } catch (Exception e) {
             StringWriter strWriter = new StringWriter();
             PrintWriter printWriter = new PrintWriter(strWriter);
             e.printStackTrace(printWriter);
-<<<<<<< HEAD
-            
-=======
->>>>>>> c7c516275d115e769b4fc5eaf3caef111207169a
             out.println(strWriter.toString());
         }
-
-    }
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-
-    }
-
-    @Override
-    public ServletConfig getServletConfig() {
-        return null;
-    }
-
-    @Override
-    public String getServletInfo() {
-        return null;
-    }
-
-    @Override
-    public void destroy() {
-
     }
 }
