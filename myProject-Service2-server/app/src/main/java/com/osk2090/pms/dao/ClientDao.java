@@ -14,4 +14,5 @@ public interface ClientDao {
 
     int delete(int no) throws Exception;
 
+    int update(Client client) throws Exception;
 }

@@ -2,23 +2,41 @@ package com.osk2090.pms.domain;
 
 public class Client {
 
-    private static final long serialVersionUID = 1L;
-
+    private int no;//일련번호
     private String id;//응모자 나이키 아이디
     private String password;
     private String name;//응모자 이름
     private String tel;//응모자 전화번호
     private String birth;//응모자 생년월일
+    private int admin;
 
     @Override
     public String toString() {
         return "Client{" +
-                "id='" + id + '\'' +
+                "no=" + no +
+                ", id='" + id + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", tel='" + tel + '\'' +
                 ", birth='" + birth + '\'' +
+                ", admin=" + admin +
                 '}';
+    }
+
+    public int getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(int admin) {
+        this.admin = admin;
+    }
+
+    public int getNo() {
+        return no;
+    }
+
+    public void setNo(int no) {
+        this.no = no;
     }
 
     public String getId() {

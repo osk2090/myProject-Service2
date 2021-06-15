@@ -6,42 +6,48 @@
 <mapper namespace="com.osk2090.pms.dao.ClientDao">
 
     <resultMap id="clientMap" type="client">
-        <id column="no" property="no"/>
-        <result column="name" property="name"/>
-        <result column="phone_number" property="phone_number"/>
-        <result column="birth_number" property="birth_number"/>
+        <id column="cno" property="no"/>
         <result column="id" property="id"/>
-        <result column="cSize" property="cSize"/>
+        <result column="name" property="name"/>
+        <result column="tel" property="tel"/>
+        <result column="birth" property="birth"/>
+        <result column="admin" property="admin"/>
     </resultMap>
 
     <insert id="insert" parameterType="client">
-        insert into pms_client(name, phone_number, birth_number, id, cSize)
-        values (#{name}, #{phone_number}, #{birth_number}, #{id}, #{cSize})
+        insert into client(id, password, name, tel, birth)
+        values (#{id}, password(#{password}), #{name}, #{tel}, #{birth});
     </insert>
 
     <select id="findByNo" resultMap="clientMap" parameterType="int">
         select no,
-               name,
-               phone_number,
-               birth_number,
                id,
-               cSize
-        from pms_client
+               name,
+               tel,
+               birth
+        from client
         where no = #{value}
     </select>
 
+    <update id="update" parameterType="client">
+        update client
+        set password = password(#{password}),
+            tel = #{tel},
+        where no = #{value}
+    </update>
+
     <delete id="delete" parameterType="int">
-        delete from pms_client
+        delete from client
         where no=#{value}
     </delete>
 
     <select id="findAll" resultMap="clientMap">
         select
             no,
-            name,
-            id
-        from pms_client
-        order by name asc
+            id,
+            name
+        from client
+        order by no asc
     </select>
 
 </mapper>

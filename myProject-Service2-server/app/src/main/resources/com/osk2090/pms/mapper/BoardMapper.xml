@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.osk2090.pms.dao.BoardDao">
+
+    <resultMap id="clientMap" type="client">
+        <id column="cno" property="no"/>
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="tel" property="tel"/>
+        <result column="birth" property="birth"/>
+        <result column="admin" property="admin"/>
+    </resultMap>
+
+    <resultMap id="boardMap" type="board">
+        <id column="bno" property="no"/>
+        <result column="btitle" property="title"/>
+        <result column="bcontent" property="content"/>
+        <result column="bprice" property="price"/>
+        <result column="bmodel" property="model"/>
+        <result column="bstartDate" property="startDate"/>
+        <result column="bendDate" property="endDate"/>
+        <result column="bselStart" property="selStart"/>
+        <result column="bselEnd" property="selEnd"/>
+        <result column="bpho1" property="photo1"/>
+        <result column="bpho2" property="photo2"/>
+        <result column="bpho3" property="photo3"/>
+        <result column="bpho4" property="photo4"/>
+        <result column="bpho5" property="photo5"/>
+        <result column="bpho6" property="photo6"/>
+        <result column="bpho7" property="photo7"/>
+        <result column="bpho8" property="photo8"/>
+        <result column="bpho9" property="photo9"/>
+        <result column="bpho10" property="photo10"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="board">
+        insert into client(btitle, bcontent, bprice, bmodel, bstartDate, bendDate, bselStart, bselEnd,
+                           bpho1, bpho2, bpho3, bpho4, bpho5, bpho6, bpho7, bpho8, bpho9, bpho10)
+        values (#{title}, #{content}, #{price}, #{model}, #{startDate}, #{endDate}, #{selStart}, #{selEnd},
+                #{photo1}, #{photo2}, #{photo3}, #{photo4}, #{photo5}, #{photo6}, #{photo7}, #{photo8}, #{photo9}, #{photo10})
+    </insert>
+
+    <update id="update" parameterType="board">
+        update board
+        set btitle = #{title},
+            bcontent = #{content},
+            bprice = #{price},
+            bmodel = #{model},
+            bstartDate = #{startDate},
+            bendDate = #{endDate},
+            bselStart = #{selStart},
+            bselEnd = #{selEnd},
+            bpho1 = #{photo1},
+            bpho2 = #{photo2},
+            bpho3 = #{photo3},
+            bpho4 = #{photo4},
+            bpho5 = #{photo5},
+            bpho6 = #{photo6},
+            bpho7 = #{photo7},
+            bpho8 = #{photo8},
+            bpho9 = #{photo9},
+            bpho10 = #{photo10}
+        where bno = #{no}
+    </update>
+    <!--여기부터!-->
+
+    <delete id="delete" parameterType="int">
+        delete from client
+        where no=#{value}
+    </delete>
+
+    <select id="findAll" resultMap="boardMap">
+        select
+            no,
+            id,
+            name
+        from client
+        order by no asc
+    </select>
+
+    <select id="findByKeyword" resultMap="boardMap" parameterType="map">
+        select b.bno,
+               b.
+
+    </select>
+
+</mapper>
+
+
+
+
+
+
+

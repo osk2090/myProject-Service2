@@ -39,4 +39,9 @@ public class DefaultClientService implements ClientService {
         return clientDao.delete(no);
     }
 
+    @Override
+    public int update(Client client) throws Exception {
+        return clientDao.update(client);
+    }
+
 }
