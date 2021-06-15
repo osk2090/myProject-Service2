@@ -1,17 +1,4 @@
 # myProject-Service2
-
-수정해야 될것
-1.현재 1번만 뽑히는 에러가 있음
-2.당첨자를 저장할 수 있는 테이블 생성하기
-3.당첨자 수령하기 메뉴에서 넘어가질 않음
-
-4.# 30-c까지 진행!
-clientService.add(c);
-현재 add할때 저 포인트에서 NPE이 뜬다 확인 바람!
-
-
-
-
     /*
      int no;//인덱스 번호
      String name;//응모자 이름
@@ -39,3 +26,5 @@ modify column no int not null auto_increment;
 
 alter table pms_client
 add constranint pms_client_uk unique (id);
+
+
