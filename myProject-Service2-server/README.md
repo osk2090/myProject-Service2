@@ -1,30 +1,7 @@
-# myProject-Service2
-    /*
-     int no;//인덱스 번호
-     String name;//응모자 이름
-     String pN;//응모자 전화번호
-     String bN;//응모자 생년월일
-     String id;//응모자 나이키 아이디
-     int cSize;//응모자 사이즈
-    */
+# Nike Draw(개발중)
 
+### 현재 서비스중인 나이키 웹사이트에서 신발 응모 및 추첨 기능을 중점으로 개발중 입니다.
 
-create table pms_client(
-no int not null,
-name varchar(30) not null,
-phone_number varchar(30),
-birth_number varchar(30),
-id varchar(50) not null,
-cSize int not null
-);
-
-alter table pms_client
-add constraint oms_client_uk primary key(no);
-
-alter table pms_client
-modify column no int not null auto_increment;
-
-alter table pms_client
-add constranint pms_client_uk unique (id);
-
-
+## DB UML(Eclipse-exerd사용)
+![DB](./READMEpic/DB구조.png)
+### 현재 로그인된 사용자가 해당 제품을 응모하여 운영자가 추첨하는 방식으로 구조로 진행중 입니다.
